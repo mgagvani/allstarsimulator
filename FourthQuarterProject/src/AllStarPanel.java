@@ -34,6 +34,8 @@ import java.awt.event.*;
 * @param team2p5Stats_Label
 
 * @param Directions_Label  Information on how to run the simulation
+
+* @author Dev Kodre
    
 */
 public class AllStarPanel extends JPanel {
