@@ -117,7 +117,7 @@ public class AllStarPanel extends JPanel {
    *
    *
    */
-   private class CencelPressed implements ActionListener
+   private class CancelPressed implements ActionListener
    {
    /**
    * Terminates all calcuations and resets all variables.
