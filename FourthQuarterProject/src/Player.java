@@ -43,7 +43,52 @@ public class Player {
      * @param Totals_FGM Average number of made shots per game by the player
      */
     public Player(String name, double RestrictArea_FGpercent, double Paint_FGpercent, double MidRange_FGpercent, double LeftCorner3_FGpercent, double RightCorner3_FGpercent, double AboveBreak3_FGpercent, int RestrictArea_FGA, int Paint_FGA, int MidRange_FGA, int LeftCorner3_FGA, int RightCorner3_FGA, int Totals_FGA, int AboveBreak3_FGA, int RestrictArea_FGM, int Paint_FGM, int MidRange_FGM, int LeftCorner3_FGM, int RightCorner3_FGM, int AboveBreak3_FGM, int Totals_FGM) {
+        this.name = name;
+        this.RestrictArea_FGpercent = RestrictArea_FGpercent;
+        this.Paint_FGpercent = Paint_FGpercent;
+        this.MidRange_FGpercent = MidRange_FGpercent;
+        this.LeftCorner3_FGpercent = LeftCorner3_FGpercent;
+        this.RightCorner3_FGpercent = RightCorner3_FGpercent;
+        this.AboveBreak3_FGpercent = AboveBreak3_FGpercent;
 
+        this.RestrictArea_FGA = RestrictArea_FGA;
+        this.Paint_FGA = Paint_FGA;
+        this.MidRange_FGA = MidRange_FGA;
+        this.LeftCorner3_FGA = LeftCorner3_FGA;
+        this.RightCorner3_FGA = RightCorner3_FGA;
+        this.Totals_FGA = Totals_FGA;
+        this.AboveBreak3_FGA = AboveBreak3_FGA;
+
+        this.RestrictArea_FGM = RestrictArea_FGM;
+        this.Paint_FGM = Paint_FGM;
+        this.MidRange_FGM = MidRange_FGM;
+        this.LeftCorner3_FGM = LeftCorner3_FGM;
+        this.RightCorner3_FGM = RightCorner3_FGM;
+        this.AboveBreak3_FGM = AboveBreak3_FGM;
+        this.Totals_FGM = Totals_FGM;
+
+        this.twoPTA = this.RestrictArea_FGA + this.Paint_FGA + this.MidRange_FGA;
+        this.threePTA = this.LeftCorner3_FGA + this. RightCorner3_FGA + this.AboveBreak3_FGA;
+
+        if(this.twoPTA == 0) {double TwoPTpercent = 0;}
+        else {
+            double TwoPTpercent = (this.RestrictArea_FGM + this.Paint_FGM + this.MidRange_FGM) / (this.twoPTA);
+        }
+
+        if(this.threePTA == 0) {double ThreePTpercent = 0;}
+        else {
+            double ThreePTpercent = (this.LeftCorner3_FGM + this.RightCorner3_FGM + this.AboveBreak3_FGM)/(this.threePTA);
+        }
+
+        pointsScored = 0;
+        twoPTM = 0;
+        twoPTA = 0;
+        threePTM = 0;
+        threePTA = 0;
+
+        int fga = this.RestrictArea_FGA + this.Paint_FGA + this.MidRange_FGA + this.LeftCorner3_FGA + this.RightCorner3_FGA + this.AboveBreak3_FGA;
+
+        // need to figure out how to emulate lotsOfShots in java
     }
 
     /**
