@@ -15,6 +15,8 @@ public class Player {
     private int RestrictArea_FGM,Paint_FGM,MidRange_FGM,LeftCorner3_FGM,RightCorner3_FGM,AboveBreak3_FGM,Totals_FGM;
     private int pointsScored;
     private int twoPTM, twoPTA, threePTM, threePTA;
+    private boolean[] lotsOfShots2;
+    private boolean[] lotsOfShots3;
 
     /**
      * Constructor for Player. 
@@ -70,14 +72,17 @@ public class Player {
         this.twoPTA = this.RestrictArea_FGA + this.Paint_FGA + this.MidRange_FGA;
         this.threePTA = this.LeftCorner3_FGA + this. RightCorner3_FGA + this.AboveBreak3_FGA;
 
-        if(this.twoPTA == 0) {double TwoPTpercent = 0;}
+        double TwoPTpercent;
+        double ThreePTpercent;
+
+        if(this.twoPTA == 0) {TwoPTpercent = 0;}
         else {
-            double TwoPTpercent = (this.RestrictArea_FGM + this.Paint_FGM + this.MidRange_FGM) / (this.twoPTA);
+            TwoPTpercent = (this.RestrictArea_FGM + this.Paint_FGM + this.MidRange_FGM) / (this.twoPTA);
         }
 
-        if(this.threePTA == 0) {double ThreePTpercent = 0;}
+        if(this.threePTA == 0) {ThreePTpercent = 0;}
         else {
-            double ThreePTpercent = (this.LeftCorner3_FGM + this.RightCorner3_FGM + this.AboveBreak3_FGM)/(this.threePTA);
+            ThreePTpercent = (this.LeftCorner3_FGM + this.RightCorner3_FGM + this.AboveBreak3_FGM)/(this.threePTA);
         }
 
         pointsScored = 0;
@@ -88,7 +93,19 @@ public class Player {
 
         int fga = this.RestrictArea_FGA + this.Paint_FGA + this.MidRange_FGA + this.LeftCorner3_FGA + this.RightCorner3_FGA + this.AboveBreak3_FGA;
 
-        // need to figure out how to emulate lotsOfShots in java
+        boolean[] lotsOfShots2 = new boolean[1000];
+        boolean[] lotsOfShots3 = new boolean[1000];
+
+        for(int i = 0; i < 1000; i++) {
+            double rand = Math.random();
+            // calculate 3 pt
+            if(rand < ThreePTpercent) lotsOfShots3[i] = true;
+            else if(rand > ThreePTpercent) lotsOfShots3[i] = false;
+            // calculate 2 pt
+            if(rand < TwoPTpercent) lotsOfShots2[i] = true;
+            else if(rand > TwoPTpercent) lotsOfShots2[i] = false;
+        }
+
     }
 
     /**
@@ -129,7 +146,8 @@ public class Player {
      * @return If the shot was made or not
      */
     public boolean shoot2pt(int turn) {
-        return false;
+        if(lotsOfShots2[turn] == true) return true;
+        else {return false;}
     }
 
     /**
@@ -138,6 +156,7 @@ public class Player {
      * @return If the shot was made or not
      */
     public boolean shoot3pt(int turn) {
-        return false;
+        if(lotsOfShots3[turn] == true) return true;
+        else {return false;}
     }
 }
