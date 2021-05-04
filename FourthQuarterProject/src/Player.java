@@ -137,7 +137,10 @@ public class Player {
      * Resets the player's shooting splits
      */
     public void reset_splits() {
-        
+        twoPTM = 0;
+        twoPTA = 0;
+        threePTM = 0;
+        threePTA = 0;
     }
 
     /**
