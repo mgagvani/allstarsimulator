@@ -124,6 +124,10 @@ public class Player {
         return pointsScored;
     }
 
+    public String get_name() {
+        return name;
+    }
+
     /**
      * Returns the player's shooting percentages and per-game shot attempts as well as makes
      * 
