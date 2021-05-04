@@ -29,18 +29,45 @@ public class Game {
      * @param numPossesions Number of possessions in a game, usually around 100 per team
      */
     public Game(Team[] teams, Player[] players, int numPossesions) {
+        this.team1 = teams[0];
+        this.team2 = teams[1];
+        this.teams = teams;
 
+        this.team1score = 0;
+        this.team2score = 0;
+
+        this.players = players;
+        this.numPossesions = numPossesions;
     }
 
     /**
      * Adds players to teams. 
      * Contains logic to normalize shot attempts by estimating usage rate.
      * 
-     * @param team1players Player objects to be added to team 1.
-     * @param team2players Player objects to be added to team 2.
+     * @param team1players Player names to be added to team 1 as Player objects.
+     * @param team2players Player names to be added to team 2 as Player objects. 
      */
-    public void add_players_to_teams(Player[] team1players, Player[] team2players) {
+    public void add_players_to_teams(String[] team1players, String[] team2players) {
+        for(String playerName : team1players) {
+            for(Player player : players) {
+                if(player.get_name() == playerName) {
+                    team1.addPlayer(player);
+                    break;
+                }
+            }
+        }
 
+        for(String playerName : team2players) {
+            for(Player player : players) {
+                if(player.get_name() == playerName) {
+                    team2.addPlayer(player);
+                    break;
+                }
+            }
+        }
+
+        // still need to find out distribution of possesions for players 
+        // THIS IS INCOMPLETE
     }
 
     /**
@@ -82,7 +109,7 @@ public class Game {
      * Gets the shooting percentages for each player in Team 1
      * @return Team 1 shooting splits
      */
-    public double[][] get_team1_splits() {
+    public int[][] get_team1_splits() {
         return team1.get_shooting_splits();
     }
 
@@ -90,7 +117,7 @@ public class Game {
      * @see get_team1_splits()
      * @return Team 2 shooting splits
      */
-    public double[][] get_team2_splits() {
+    public int[][] get_team2_splits() {
         return team2.get_shooting_splits();
     }
 
@@ -100,7 +127,16 @@ public class Game {
      * @param playerName Name of the player to be deleted
      */
     public void del_from_team1(String playerName) {
-
+        int idx = 0;
+        for(Player player : team1.get_players()) {
+            if(player.get_name() == playerName) {
+                Player[] team1players = team1.get_players();
+                team1players[idx] = null;
+                team1.set_players(team1players);
+                break;
+            }
+            idx += 1;
+        }
     }
 
     /**
@@ -108,6 +144,15 @@ public class Game {
      * @param playerName Name of the player to  be deleted
      */    
     public void del_from_team2(String playerName) {
-
+        int idx = 0;
+        for(Player player : team2.get_players()) {
+            if(player.get_name() == playerName) {
+                Player[] team2players = team2.get_players();
+                team2players[idx] = null;
+                team1.set_players(team2players);
+                break;
+            }
+            idx += 1;
+        }
     }
 }
