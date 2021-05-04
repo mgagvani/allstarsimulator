@@ -94,4 +94,13 @@ public class Team {
     public Player[] get_players() {
         return players;
     }
+
+    /**
+     * Given a list of players, make those players the team's players
+     * 
+     * @param playerList List of Player objects
+     */
+    public void set_players(Player[] playerList) {
+        players = playerList;
+    }
 }
