@@ -11,6 +11,7 @@
 public class Team {
     private String name;
     private Player[] players;
+    private int appendIdx = 0;
     private double pct2PA, pct3PA;
 
     /**
@@ -23,6 +24,9 @@ public class Team {
      */
     public Team(String name, double pct2PA, double pct3PA) {
         assert(1 - pct2PA == pct3PA);
+        this.name = name;
+        this.pct2PA = pct2PA;
+        this.pct3PA = pct3PA;
     }
 
     /**
@@ -31,14 +35,17 @@ public class Team {
      * @param player Player object
      */
     public void addPlayer(Player player) {
-
+        players[appendIdx] = player;
+        appendIdx += 1;
     }
 
     /**
      * Resets the scores of each player in the team to 0.
      */
     public void reset_scores() {
-
+        for(Player player : players) {
+            player.reset_score();
+        }
     }
 
     /**
@@ -48,7 +55,12 @@ public class Team {
      * @return Points scored by each player in an array. 
      */
     public int[] get_scores() {
-        int[] scores = {};
+        int[] scores = new int[players.length];
+        int i = 0;
+        for(Player player: players) {
+            scores[i] = player.get_score();
+            i += 1;
+        }
         return scores;
     }
 
@@ -56,10 +68,14 @@ public class Team {
      * Gets the shooting percentages for each player.
      * 
      * @see get_scores() for information on indexing 
-     * @return A 2D array of doubles, which are the player's shooting percentages
+     * @return A 2D array of int, which are the player's shot makes and shot attempts
      */
-    public double[][] get_shooting_splits() {
-        double[][] splits = {};
+    public int[][] get_shooting_splits() {
+        int[][] splits = {};
+        int i = 0;
+        for(Player player: players) {
+            splits[i] = player.get_splits();
+        }
         return splits;
     }
 
@@ -67,6 +83,8 @@ public class Team {
      * Resets the shooting percentages for each player on the team.
      */
     public void reset_splits() {
-
+        for(Player player: players) {
+            player.reset_splits();
+        }
     }
 }
