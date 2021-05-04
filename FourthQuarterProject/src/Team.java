@@ -87,4 +87,11 @@ public class Team {
             player.reset_splits();
         }
     }
+
+    /**
+     * Returns an array of the team's players
+     */
+    public Player[] get_players() {
+        return players;
+    }
 }
