@@ -2,6 +2,11 @@
 // Period: 2nd
 // Date: April 27th, 2021
 
+import java.util.HashMap;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The Game class contains information about the entire game.
  * It contains 2 Teams, as well as information such as the score, the current turn, and all possible player names.
@@ -18,7 +23,7 @@ public class Game {
     private Player[] players;
     private int numPossesions;
     private int turnsPlayed;
-    private String[] fgaOrder;
+    private List<String> allAttempts = Arrays.asList();
 
     /**
      * Constructor for Game.
@@ -68,6 +73,49 @@ public class Game {
 
         // still need to find out distribution of possesions for players 
         // THIS IS INCOMPLETE
+        Map playerFGAs = new HashMap();
+        List<String> allAttempts = Arrays.asList();
+
+        String[] allPlayerNames = ArrayUtils.addAll(team1players, team2players);
+        int totalFGA = 0;
+
+        for(String playerName: allPlayerNames) {
+            for(Player player: team1.get_players()) {
+                if(player.name == playerName) {
+                    playerFGAs.put(player.name, player.get_fga());
+                    totalFGA += player.get_fga();
+                }
+            }
+
+            for(Player player: team2.get_players()) {
+                if(player.name == playerName) {
+                    playerFGAs.put(player.name, player.get_fga());
+                    totalFGA += player.get_fga();
+                }
+            }
+        }
+
+        double normFactor = numPossesions/totalFGA;
+
+        for(String playerName : allPlayerNames) {
+            int normFGA = normFactor*playerFGAs.get(playerName);
+            playerFGAs.put(playerName, normFGA);
+        }
+
+        for(String playerName : allPlayerNames) {
+            for(int attemptNumber; attemptNumber < playerFGAs.get(playerName); attemptNumber++) {
+                allAttempts.add(playerName);
+            }
+        }
+
+        fgaOrder = Collections.shuffle(allAttempts);
+
+        //if numPossessions is more than length of fgaOrder, add at the end
+        for(i = 1; i < 1 + numPossesions - fgaOrder.length; i++) {
+            String randomPlayerName = Collections.shuffle(allPlayerNames)[0];
+            fgaOrder.add(randomPlayerName);
+        }
+
     }
 
     /**
