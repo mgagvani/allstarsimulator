@@ -44,48 +44,59 @@ import java.io.*;
 public class AllStarPanel extends JPanel{
 
    BufferedImage image;
+   BufferedImage hoop;
    int xPos = 0;
    int yPos = 600;
    int direction =1;
+   int playernumt1 = 0;
+   int playernumt2 = 0;
+   Boolean firstpressed = false;
+   Boolean firstpressedt2 = false;
    
+   
+      
+   JLabel directions = new JLabel("                                  Select players from the drop down menu.");
+   JLabel directions2 = new JLabel("Then, add them to the perfered team.");
+   JButton addt1 = new JButton("Add Team 1");
+   JButton deletet1 = new JButton("Delete Team 1");
+   JButton addt2 = new JButton("Add Team 2");
+   JButton deletet2 = new JButton("Delete Team 2");
+      
+   JLabel menuLabel = new JLabel("Select a player:");
+      
+   JComboBox playerlist = new JComboBox();
+      
+   JLabel team1 = new JLabel("Team One:");
+      
+   JLabel player1t1 = new JLabel("player 1");
+   JLabel player2t1 = new JLabel("player 2");
+   JLabel player3t1 = new JLabel("player 3");
+   JLabel player4t1 = new JLabel("player 4");
+   JLabel player5t1 = new JLabel("player 5");
+      
+   JLabel team1score = new JLabel("Score:");
+      
+   JLabel team2 = new JLabel("Team Two:");
+      
+   JLabel player1t2 = new JLabel("player 1");
+   JLabel player2t2 = new JLabel("player 2");
+   JLabel player3t2 = new JLabel("player 3");
+   JLabel player4t2 = new JLabel("player 4");
+   JLabel player5t2 = new JLabel("player 5");
+      
+   JLabel team2score = new JLabel("Score:");
+   JButton start = new JButton("START");
    public AllStarPanel ()
    {
       
       
-      
       setLayout(new GridLayout(20,2));
       
-      JLabel directions = new JLabel("Select players from the drop down menu and add them to the perfered team.");
-      JButton addt1 = new JButton("Add Team 1");
-      JButton deletet1 = new JButton("Delete Team 1");
-      JButton addt2 = new JButton("Add Team 2");
-      JButton deletet2 = new JButton("Delete Team 2");
-      
-      JLabel menuLabel = new JLabel("Select a player");
-      
-      JComboBox playerlist = new JComboBox();
-      
-      JLabel team1 = new JLabel("Team One:");
-      
-      JLabel player1t1 = new JLabel("player");
-      JLabel player2t1 = new JLabel("player");
-      JLabel player3t1 = new JLabel("player");
-      JLabel player4t1 = new JLabel("player");
-      JLabel player5t1 = new JLabel("player");
-      
-      JLabel team1score = new JLabel("Score:");
-      
-      JLabel team2 = new JLabel("Team Two:");
-      
-      JLabel player1t2 = new JLabel("player");
-      JLabel player2t2 = new JLabel("player");
-      JLabel player3t2 = new JLabel("player");
-      JLabel player4t2 = new JLabel("player");
-      JLabel player5t2 = new JLabel("player");
-      
-      JLabel team2score = new JLabel("Score:");
-      JButton start = new JButton("START");
       start.addActionListener(new StartPressed());
+      addt1.addActionListener(new SelectDropDownTeam1());
+      addt2.addActionListener(new SelectDropDownTeam2());
+      deletet1.addActionListener(new DeleteTeam1Pressed());
+      deletet2.addActionListener(new DeleteTeam2Pressed());
       
       
       
@@ -94,7 +105,8 @@ public class AllStarPanel extends JPanel{
       
    
       add(directions);
-      add(new JLabel()); //used to occupy a slot allowing the formatting to look better
+      
+      add(directions2); 
       
       
       add(addt1);
@@ -105,7 +117,7 @@ public class AllStarPanel extends JPanel{
       add(deletet2);
       
       add(menuLabel);
-      add(new JLabel());
+      add(new JLabel()); //used to occupy a slot allowing the formatting to look better
       
       add(playerlist);
       
@@ -137,13 +149,23 @@ public class AllStarPanel extends JPanel{
       add(start);
       try{
       
-         image = ImageIO.read(new File("basketball.jpeg"));
+         image = ImageIO.read(new File("basketball.png"));
       
       }
       catch(IOException ex)
       {
       
       }
+      try{
+      
+         hoop = ImageIO.read(new File("basketballHoop.png"));
+      
+      }
+      catch(IOException ex)
+      {
+      
+      }
+   
                
       
       
@@ -179,7 +201,9 @@ public class AllStarPanel extends JPanel{
    public void paintComponent(Graphics g)
    {
       super.paintComponent(g);
-      g.drawImage(image, xPos,yPos,150,150, this);
+      g.drawImage(image, xPos,yPos,50,50, this);
+      g.drawImage(hoop, 170,560,250,250, this);
+      
    }
   
    /**
@@ -220,40 +244,40 @@ public class AllStarPanel extends JPanel{
    */
       public void actionPerformed(ActionEvent e)
       {
-            try {
+         try {
               
-         Timer timer = new Timer(40, 
-            new ActionListener() {
-               @Override
+            Timer timer = new Timer(40, 
+               new ActionListener() {
+                  @Override
                     public void actionPerformed(ActionEvent e) {
-                 yPos = (int)((0.005)*(Math.pow(xPos, 2))) - xPos + 600;
-                  xPos += direction;
-                  if (xPos + image.getWidth() > getWidth()+50) {
-                     xPos = getWidth() - image.getWidth();
-                     direction *= -1;
-                  } else if (xPos < 0) {
-                     xPos = 0;
-                     direction *= -1;
-                  }
-                  if (yPos + image.getHeight() > getHeight() +200)
-                  {
+                     yPos = (int)((0.005)*(Math.pow(xPos, 2))) - xPos + 600;
+                     xPos += direction;
+                     if (xPos + image.getWidth() > getWidth()+50) {
+                        xPos = getWidth() - image.getWidth();
+                        direction *= -1;
+                     } else if (xPos < 0) {
+                        xPos = 0;
+                        direction *= -1;
+                     }
+                     if (yPos + image.getHeight() > getHeight() +190)
+                     {
                      
-                     xPos = 0;
+                        xPos = 0;
+                     }
+                     repaint();
                   }
-                  repaint();
-               }
                 
-            
-            });
-         timer.setRepeats(true);
-         timer.setCoalesce(true);
-         timer.start();
-      } 
-      catch(Exception ex) 
-      {
+               
+               });
+            timer.setRepeats(true);
+            timer.setCoalesce(true);
+            timer.start();
+         } 
+         catch(Exception ex) 
+         {
          
-      }
-
+         }
+      
       }
    }
    /**
@@ -270,7 +294,46 @@ public class AllStarPanel extends JPanel{
    */
       public void actionPerformed(ActionEvent e)
       {
-            
+         if(firstpressed == true && playernumt1 != 0)
+         {
+            playernumt1 -=1;
+            firstpressed = false;
+         }
+         if(firstpressed == true && playernumt1 == 0)
+         {
+            firstpressed = false;
+         }
+         if(playernumt1 < 5)
+         {
+            playernumt1+=1;
+         }
+         if (playernumt1 == 1)
+         {
+            player1t1.setText("Player: " + playerlist.getSelectedItem().toString());
+               
+         }
+         else if (playernumt1 == 2)
+         {
+            player2t1.setText("Player: " + playerlist.getSelectedItem().toString());
+               
+         }
+         else if (playernumt1 == 3)
+         {
+            player3t1.setText("Player: " + playerlist.getSelectedItem().toString());
+               
+         }
+         else if (playernumt1 == 4)
+         {
+            player4t1.setText("Player: " + playerlist.getSelectedItem().toString());
+               
+         }
+         else if (playernumt1 == 5)
+         {
+            player5t1.setText("Player: " + playerlist.getSelectedItem().toString());
+            playernumt1+=1;
+               
+         }
+         
       }
    }
    /**
@@ -287,6 +350,45 @@ public class AllStarPanel extends JPanel{
    */
       public void actionPerformed(ActionEvent e)
       {
+         if(firstpressedt2 == true && playernumt2 != 0)
+         {
+            playernumt2 -=1;
+            firstpressedt2 = false;
+         }
+         if(firstpressedt2 == true && playernumt2 == 0)
+         {
+            firstpressedt2 = false;
+         } 
+           
+         if(playernumt2 < 5)
+         {
+            playernumt2 +=1;
+         }
+         if (playernumt2 == 1)
+         {
+            player1t2.setText("Player: " + playerlist.getSelectedItem().toString());
+               
+         }
+         else if (playernumt2 == 2)
+         {
+            player2t2.setText("Player: " + playerlist.getSelectedItem().toString());
+               
+         }
+         else if (playernumt2 == 3)
+         {
+            player3t2.setText("Player: " + playerlist.getSelectedItem().toString());
+               
+         }
+         else if (playernumt2 == 4)
+         {
+            player4t2.setText("Player: " + playerlist.getSelectedItem().toString());
+               
+         }
+         else if (playernumt2 == 5)
+         {
+            player5t2.setText("Player: " + playerlist.getSelectedItem().toString());
+               
+         }
             
       }
    }
@@ -338,15 +440,46 @@ public class AllStarPanel extends JPanel{
    */
       public void actionPerformed(ActionEvent e)
       {
-         xPos += direction;
-         if (xPos + image.getWidth() > getWidth()) {
-            xPos = getWidth() - image.getWidth();
-            direction *= -1;
-         } else if (xPos < 0) {
-            xPos = 0;
-            direction *= -1;
+         if(firstpressed == false && playernumt1 != 6)
+         {
+            playernumt1 +=1;
+            firstpressed = true;
          }
-         repaint();
+         else if(firstpressed == false && playernumt1 == 6)
+         {
+            firstpressed = true;
+         }
+         if (playernumt1 >0)
+         {
+            playernumt1 -= 1;
+         }
+         if (playernumt1 == 1)
+         {
+            playernumt1 -=1;
+            player1t1.setText("Player: ");
+            
+         }
+         if (playernumt1 == 2)
+         {
+            player2t1.setText("Player: ");
+            
+         }
+         if (playernumt1 == 3)
+         {
+            player3t1.setText("Player: ");
+            
+         }
+         if (playernumt1 == 4)
+         {
+            player4t1.setText("Player: ");
+            
+         }
+         if (playernumt1 == 5)
+         {
+            player5t1.setText("Player: ");
+            
+         }
+         
       }
    }
    private class DeleteTeam2Pressed implements ActionListener
@@ -358,7 +491,45 @@ public class AllStarPanel extends JPanel{
    */
       public void actionPerformed(ActionEvent e)
       {
+            if(firstpressedt2 == false && playernumt2 != 6)
+         {
+            playernumt2 +=1;
+            firstpressedt2 = true;
+         }
+         else if(firstpressedt2 == false && playernumt2 == 6)
+         {
+            firstpressedt2 = true;
+         }
+         if (playernumt2 >0)
+         {
+            playernumt2 -= 1;
+         }
+         if (playernumt2 == 1)
+         {
+            playernumt2 -=1;
+            player1t2.setText("Player: ");
             
+         }
+         if (playernumt2 == 2)
+         {
+            player2t2.setText("Player: ");
+            
+         }
+         if (playernumt2 == 3)
+         {
+            player3t2.setText("Player: ");
+            
+         }
+         if (playernumt2 == 4)
+         {
+            player4t2.setText("Player: ");
+            
+         }
+         if (playernumt2 == 5)
+         {
+            player5t2.setText("Player: ");
+            
+         }
       }
    }
    private class Animation implements ActionListener
