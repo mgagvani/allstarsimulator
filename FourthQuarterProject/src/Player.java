@@ -124,10 +124,16 @@ public class Player {
         return pointsScored;
     }
 
+    /**
+     * @return The name of the player
+     */
     public String get_name() {
         return name;
     }
 
+    /**
+     * @return The amount of shot attempts the player averages
+     */
     public int get_fga() {
         return fga;
     }
