@@ -128,6 +128,10 @@ public class Player {
         return name;
     }
 
+    public int get_fga() {
+        return fga;
+    }
+
     /**
      * Returns the player's shooting percentages and per-game shot attempts as well as makes
      * 
