@@ -122,7 +122,15 @@ public class Game {
      * Reset information about the game, so that another one can start. 
      */
     public void init_game() {
-
+        team1score = 0;
+        team2score = 0;
+        turnsPlayed = 0;
+        team1.reset_scores();
+        team2.reset_scores();
+        team1.reset_splits();
+        team2.reset_splits();
+        team1.set_players(); // no players
+        team2.set_players();
     }
 
     /**
