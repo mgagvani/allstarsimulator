@@ -107,6 +107,12 @@ public class Player {
         }
 
     }
+    /**
+     * @param points Adds the specified amount of points to the player's pointsScored variable
+     */
+    public void add_score(int points) {
+        pointsScored += points;
+    }
 
     /**
      * Resets the player's score
