@@ -115,6 +115,34 @@ public class Player {
     }
 
     /**
+     * Add a shot attempt to a player, in the 2-point or 3 point zone
+     * 
+     * @param position 2 or 3
+     */
+    public void add_attempt(int position) {
+        if(position == 2) {
+            twoPTA += 1;
+        }
+        else if(position == 3) {
+            threePTA += 1;
+        }
+    }
+
+    /**
+     * Add a shot make to a player, in the 2-point or 3 point zone
+     * 
+     * @param position 2 or 3
+     */
+    public void add_make(int position) {
+        if(position == 2) {
+            twoPTM += 1;
+        }
+        else if(position == 3) {
+            threePTM += 1;
+        }
+    }
+
+    /**
      * Resets the player's score
      */
     public void reset_score() {
