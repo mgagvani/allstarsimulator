@@ -24,6 +24,7 @@ public class Game {
     private int numPossesions;
     private int turnsPlayed;
     private List<String> allAttempts = Arrays.asList();
+    List<Player> allPlayersInGame;
 
     /**
      * Constructor for Game.
@@ -43,6 +44,7 @@ public class Game {
 
         this.players = players;
         this.numPossesions = numPossesions;
+
     }
 
     /**
@@ -142,6 +144,77 @@ public class Game {
      */
     public String[] play_turn() {
         String turnoutcome = "";
+        playingPlayers = new List<Player>(ArrayUtils.addAll(team1.get_players(), team2.get_players()));
+
+        if(turnsPlayed >= numPossesions) {
+            return False; // Error
+        }
+
+        String playerNameWithBall = fgaOrder.get(turnsPlayed);
+        for(Player player : ArrayUtils.addAll(team1.get_players(), team2.get_players())) {
+            if(player.get_name() == playerNameWithBall) {
+                Player playerWithBall = player;
+                break;
+            }
+        }
+
+        turnoutcome = "" + playerNameWithBall + "did not score";
+        int position = new Random().nextInt(new int[]{2,3});
+
+        if(position == 3) {
+            boolean make = playerWithBall.shoot3pt(turnsPlayed);
+            if(make) {
+                turnoutcome = "" + playerNameWithBall + "made a 3-pointer";
+                if(ArrayUtils.contains(team1.get_players(), playerWithBall)) {
+                    team1score += 3;
+                    playerWithBall.add_score(3);
+                    playerWithBall.add_make(3);
+                    playerWithBall.add_attempt(3);
+                    playerWithBall = team2.get_players()[new Random().nextInt(team2.get_players().length)]; // inbound ball to person on other team
+                }
+                else if(ArrayUtils.contains(team2.get_players(), playerWithBall)) {
+                    team2score += 3;
+                    playerWithBall.add_score(3);
+                    playerWithBall.add_make(3);
+                    playerWithBall.add_attempt(3);
+                    playerWithBall = team1.get_players()[new Random().nextInt(team1.get_players().length)]; // inbound ball to person on other team
+                }
+                else {}; // do nothing for now
+            }
+            else if(!make) {
+                playerWithBall.add_attempt(3);
+                playerWithBall = Collections.shuffle(playingPlayers)[0];
+            }
+        }
+
+        if(position == 2) {
+            boolean make = playerWithBall.shoot2pt(turnsPlayed);
+            if(make) {
+                turnoutcome = "" + playerNameWithBall + "made a 2-pointer";
+                if(ArrayUtils.contains(team1.get_players(), playerWithBall)) {
+                    team1score += 2;
+                    playerWithBall.add_score(2);
+                    playerWithBall.add_make(2);
+                    playerWithBall.add_attempt(2);
+                    playerWithBall = team2.get_players()[new Random().nextInt(team2.get_players().length)]; // inbound ball to person on other team
+                }
+                else if(ArrayUtils.contains(team2.get_players(), playerWithBall)) {
+                    team2score += 2;
+                    playerWithBall.add_score(2);
+                    playerWithBall.add_make(2);
+                    playerWithBall.add_attempt(2);
+                    playerWithBall = team1.get_players()[new Random().nextInt(team1.get_players().length)]; // inbound ball to person on other team
+                }
+                else {}; // do nothing for now
+            }
+            else if(!make) {
+                playerWithBall.add_attempt(2);
+                playerWithBall = Collections.shuffle(playingPlayers)[0];
+            }
+        }
+
+        turnsPlayed += 1;
+        
         return new String[] {""+team1score,""+team2score,turnoutcome};
     }
 
