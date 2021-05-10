@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The Game class contains information about the entire game.
@@ -83,15 +84,15 @@ public class Game {
 
         for(String playerName: allPlayerNames) {
             for(Player player: team1.get_players()) {
-                if(player.name == playerName) {
-                    playerFGAs.put(player.name, player.get_fga());
+                if(player.get_name() == playerName) {
+                    playerFGAs.put(player.get_name(), player.get_fga());
                     totalFGA += player.get_fga();
                 }
             }
 
             for(Player player: team2.get_players()) {
-                if(player.name == playerName) {
-                    playerFGAs.put(player.name, player.get_fga());
+                if(player.get_name() == playerName) {
+                    playerFGAs.put(player.get_name(), player.get_fga());
                     totalFGA += player.get_fga();
                 }
             }
@@ -100,7 +101,7 @@ public class Game {
         double normFactor = numPossesions/totalFGA;
 
         for(String playerName : allPlayerNames) {
-            int normFGA = normFactor*playerFGAs.get(playerName);
+            int normFGA = normFactor * playerFGAs.get(playerName);
             playerFGAs.put(playerName, normFGA);
         }
 
