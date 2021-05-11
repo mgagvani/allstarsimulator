@@ -7,6 +7,7 @@ import javax.imageio.*;
 import javax.swing.Timer;
 import java.awt.image.*;
 import java.util.*;
+import java.util.List;
 import java.io.*;
 //@Author Dev Kodre
 //Period: 2
@@ -90,10 +91,34 @@ public class AllStarPanel extends JPanel{
       
    JLabel team2score = new JLabel("Score:");
    JButton start = new JButton("START");
-   public AllStarPanel () throws Exception
+   public AllStarPanel () 
    {
       // Working on this part
-      Scanner scan = new Scanner( new File("player.csv") );
+      ArrayList<String> players = new ArrayList<>();
+      String line = "";
+      
+      try{
+         BufferedReader br = new BufferedReader(new FileReader("players.csv")); 
+         
+         while ((line = br.readLine()) != null)
+         {
+            
+            String [] parameters = line.split(",");
+            for(int x = 0; x < parameters.length; x++)
+            {
+               players.add(parameters[x]);
+            } 
+         }
+      }
+      catch(IOException e)
+      {
+      
+      }  
+      for(int x = 0; x < players.size();x+=25)
+      {
+         playerlist.addItem((players.get(x)));
+      }
+     
       
       setLayout(new GridLayout(20,2));
       
@@ -496,7 +521,7 @@ public class AllStarPanel extends JPanel{
    */
       public void actionPerformed(ActionEvent e)
       {
-            if(firstpressedt2 == false && playernumt2 != 6)
+         if(firstpressedt2 == false && playernumt2 != 6)
          {
             playernumt2 +=1;
             firstpressedt2 = true;
