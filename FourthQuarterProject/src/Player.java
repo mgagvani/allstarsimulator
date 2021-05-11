@@ -9,14 +9,15 @@
  * @author Manav Gagvani
 */
 public class Player {
-    private String name;
-    private double RestrictArea_FGpercent,Paint_FGpercent,MidRange_FGpercent,LeftCorner3_FGpercent,RightCorner3_FGpercent,AboveBreak3_FGpercent;
-    private int RestrictArea_FGA,Paint_FGA,MidRange_FGA,LeftCorner3_FGA,RightCorner3_FGA,Totals_FGA,AboveBreak3_FGA;
-    private int RestrictArea_FGM,Paint_FGM,MidRange_FGM,LeftCorner3_FGM,RightCorner3_FGM,AboveBreak3_FGM,Totals_FGM;
-    private int pointsScored;
-    private int twoPTM, twoPTA, threePTM, threePTA;
-    private boolean[] lotsOfShots2;
-    private boolean[] lotsOfShots3;
+    public String name;
+    public double RestrictArea_FGpercent,Paint_FGpercent,MidRange_FGpercent,LeftCorner3_FGpercent,RightCorner3_FGpercent,AboveBreak3_FGpercent;
+    public int RestrictArea_FGA,Paint_FGA,MidRange_FGA,LeftCorner3_FGA,RightCorner3_FGA,Totals_FGA,AboveBreak3_FGA;
+    public int RestrictArea_FGM,Paint_FGM,MidRange_FGM,LeftCorner3_FGM,RightCorner3_FGM,AboveBreak3_FGM,Totals_FGM;
+    public int pointsScored;
+    public int twoPTM, twoPTA, threePTM, threePTA;
+    public boolean[] lotsOfShots2;
+    public boolean[] lotsOfShots3;
+    public int fga;
 
     /**
      * Constructor for Player. 
@@ -91,7 +92,7 @@ public class Player {
         threePTM = 0;
         threePTA = 0;
 
-        int fga = this.RestrictArea_FGA + this.Paint_FGA + this.MidRange_FGA + this.LeftCorner3_FGA + this.RightCorner3_FGA + this.AboveBreak3_FGA;
+        fga = this.RestrictArea_FGA + this.Paint_FGA + this.MidRange_FGA + this.LeftCorner3_FGA + this.RightCorner3_FGA + this.AboveBreak3_FGA;
 
         boolean[] lotsOfShots2 = new boolean[1000];
         boolean[] lotsOfShots3 = new boolean[1000];
