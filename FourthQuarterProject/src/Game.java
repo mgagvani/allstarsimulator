@@ -76,7 +76,7 @@ public class Game {
 
         // still need to find out distribution of possesions for players 
         // THIS IS INCOMPLETE
-        Map playerFGAs = new HashMap();
+        Map<String, Integer> playerFGAs = new HashMap<>();
         List<String> allAttempts = Arrays.asList();
 
         String[] allPlayerNames = ArrayUtils.addAll(team1players, team2players);
