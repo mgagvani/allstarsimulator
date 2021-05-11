@@ -2,11 +2,17 @@
 // Period: 2nd
 // Date: April 27th, 2021
 
-import java.util.HashMap;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Collections;
+import java.*;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  * The Game class contains information about the entire game.
@@ -25,7 +31,9 @@ public class Game {
     private int numPossesions;
     private int turnsPlayed;
     private List<String> allAttempts = Arrays.asList();
-    List<Player> allPlayersInGame;
+    private List<Player> allPlayersInGame;
+    public List<String> fgaOrder;
+    public Player playerWithBall;
 
     /**
      * Constructor for Game.
@@ -77,9 +85,11 @@ public class Game {
         // still need to find out distribution of possesions for players 
         // THIS IS INCOMPLETE
         Map<String, Integer> playerFGAs = new HashMap<>();
-        List<String> allAttempts = Arrays.asList();
+        List<String> allAttempts = new ArrayList<String>();
 
-        String[] allPlayerNames = ArrayUtils.addAll(team1players, team2players);
+        // String[] allPlayerNames = ArrayUtils.addAll(team1players, team2players);
+        String[] allPlayerNames = Arrays.copyOf(team1players, team1players.length + team2players.length);
+        System.arraycopy(team2players, 0, allPlayerNames, team1players.length, team2players.length);
         int totalFGA = 0;
 
         for(String playerName: allPlayerNames) {
@@ -101,21 +111,34 @@ public class Game {
         double normFactor = numPossesions/totalFGA;
 
         for(String playerName : allPlayerNames) {
-            int normFGA = normFactor * playerFGAs.get(playerName);
+            int normFGA = (int)Math.round(normFactor * playerFGAs.get(playerName));
             playerFGAs.put(playerName, normFGA);
         }
 
         for(String playerName : allPlayerNames) {
-            for(int attemptNumber; attemptNumber < playerFGAs.get(playerName); attemptNumber++) {
+            int attemptNumber = 1;
+            for(; attemptNumber < playerFGAs.get(playerName); attemptNumber++) {
                 allAttempts.add(playerName);
             }
         }
 
-        fgaOrder = Collections.shuffle(allAttempts);
+        // Shuffle using the Fisher-Yates algorithm
+        Random r = new Random();
+
+        for(int i = allAttempts.size() - 1; i > 0; i--) {
+            int j = r.nextInt(i);
+
+            String temp = allAttempts.get(i);
+            allAttempts.add(i, allAttempts.get(j));
+            allAttempts.add(j, temp);
+        }
+        fgaOrder = allAttempts;
 
         //if numPossessions is more than length of fgaOrder, add at the end
-        for(i = 1; i < 1 + numPossesions - fgaOrder.length; i++) {
-            String randomPlayerName = Collections.shuffle(allPlayerNames)[0];
+        for(int i = 1; i < 1 + numPossesions - fgaOrder.size(); i++) {
+            // String randomPlayerName = Collections.shuffle(Arrays.asList(allPlayerNames));
+            Random rand = new Random();
+            String randomPlayerName = allPlayerNames[rand.nextInt(allPlayerNames.length)];
             fgaOrder.add(randomPlayerName);
         }
 
@@ -132,8 +155,8 @@ public class Game {
         team2.reset_scores();
         team1.reset_splits();
         team2.reset_splits();
-        team1.set_players(); // no players
-        team2.set_players();
+        team1.set_players(new Player[]{}); // no players
+        team2.set_players(new Player[]{});
     }
 
     /**
@@ -145,22 +168,25 @@ public class Game {
      */
     public String[] play_turn() {
         String turnoutcome = "";
-        playingPlayers = new List<Player>(ArrayUtils.addAll(team1.get_players(), team2.get_players()));
+        // private Player playerWithBall;
+        List<Player> playingPlayers = new ArrayList<Player>(); // not being used for now?
 
         if(turnsPlayed >= numPossesions) {
-            return False; // Error
+            return new String[]{"error"}; // Error
         }
 
         String playerNameWithBall = fgaOrder.get(turnsPlayed);
         for(Player player : ArrayUtils.addAll(team1.get_players(), team2.get_players())) {
             if(player.get_name() == playerNameWithBall) {
-                Player playerWithBall = player;
+                playerWithBall = player;
                 break;
             }
         }
 
         turnoutcome = "" + playerNameWithBall + "did not score";
-        int position = new Random().nextInt(new int[]{2,3});
+
+        int[] poss = new int[] {2,3};
+        int position = new Random().nextInt(poss.length);
 
         if(position == 3) {
             boolean make = playerWithBall.shoot3pt(turnsPlayed);
@@ -184,7 +210,8 @@ public class Game {
             }
             else if(!make) {
                 playerWithBall.add_attempt(3);
-                playerWithBall = Collections.shuffle(playingPlayers)[0];
+                Random rand = new Random();
+                playerWithBall = playingPlayers.get(rand.nextInt(playingPlayers.size()));
             }
         }
 
@@ -210,7 +237,8 @@ public class Game {
             }
             else if(!make) {
                 playerWithBall.add_attempt(2);
-                playerWithBall = Collections.shuffle(playingPlayers)[0];
+                Random rand = new Random();
+                playerWithBall = playingPlayers.get(rand.nextInt(playingPlayers.size()));
             }
         }
 
