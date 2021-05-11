@@ -10,7 +10,7 @@
 */
 public class Team {
     private String name;
-    private Player[] players;
+    private Player[] players = new Player[5];
     private int appendIdx = 0;
     private double pct2PA, pct3PA;
 
@@ -27,6 +27,10 @@ public class Team {
         this.name = name;
         this.pct2PA = pct2PA;
         this.pct3PA = pct3PA;
+    }
+    public Team()
+    {
+    
     }
 
     /**
