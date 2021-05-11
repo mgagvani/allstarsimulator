@@ -108,6 +108,10 @@ public class Player {
         }
 
     }
+    public Player()
+    {
+      
+    }
     /**
      * @param points Adds the specified amount of points to the player's pointsScored variable
      */
