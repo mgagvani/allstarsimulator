@@ -54,6 +54,10 @@ public class AllStarPanel extends JPanel{
    Boolean firstpressedt2 = false;
    
    
+   
+   
+   
+   
       
    JLabel directions = new JLabel("                                  Select players from the drop down menu.");
    JLabel directions2 = new JLabel("Then, add them to the perfered team.");
@@ -86,9 +90,10 @@ public class AllStarPanel extends JPanel{
       
    JLabel team2score = new JLabel("Score:");
    JButton start = new JButton("START");
-   public AllStarPanel ()
+   public AllStarPanel () throws Exception
    {
-      
+      // Working on this part
+      Scanner scan = new Scanner( new File("player.csv") );
       
       setLayout(new GridLayout(20,2));
       
