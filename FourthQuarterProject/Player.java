@@ -11,8 +11,8 @@
 public class Player {
     public String name;
     public double RestrictArea_FGpercent,Paint_FGpercent,MidRange_FGpercent,LeftCorner3_FGpercent,RightCorner3_FGpercent,AboveBreak3_FGpercent;
-    public int RestrictArea_FGA,Paint_FGA,MidRange_FGA,LeftCorner3_FGA,RightCorner3_FGA,Totals_FGA,AboveBreak3_FGA;
-    public int RestrictArea_FGM,Paint_FGM,MidRange_FGM,LeftCorner3_FGM,RightCorner3_FGM,AboveBreak3_FGM,Totals_FGM;
+    public double RestrictArea_FGA,Paint_FGA,MidRange_FGA,LeftCorner3_FGA,RightCorner3_FGA,Totals_FGA,AboveBreak3_FGA;
+    public double RestrictArea_FGM,Paint_FGM,MidRange_FGM,LeftCorner3_FGM,RightCorner3_FGM,AboveBreak3_FGM,Totals_FGM;
     public int pointsScored;
     public int twoPTM, twoPTA, threePTM, threePTA;
     public boolean[] lotsOfShots2;
@@ -45,7 +45,7 @@ public class Player {
      * @param AboveBreak3_FGM Average number of above-the-break 3-pointers made per game
      * @param Totals_FGM Average number of made shots per game by the player
      */
-    public Player(String name, double RestrictArea_FGpercent, double Paint_FGpercent, double MidRange_FGpercent, double LeftCorner3_FGpercent, double RightCorner3_FGpercent, double AboveBreak3_FGpercent, int RestrictArea_FGA, int Paint_FGA, int MidRange_FGA, int LeftCorner3_FGA, int RightCorner3_FGA, int Totals_FGA, int AboveBreak3_FGA, int RestrictArea_FGM, int Paint_FGM, int MidRange_FGM, int LeftCorner3_FGM, int RightCorner3_FGM, int AboveBreak3_FGM, int Totals_FGM) {
+    public Player(String name, double RestrictArea_FGM, double RestrictArea_FGA, double RestrictArea_FGpercent, double Paint_FGM, double Paint_FGA, double Paint_FGpercent, double MidRange_FGM, double MidRange_FGA, double MidRange_FGpercent, double LeftCorner3_FGM, double LeftCorner3_FGA, double LeftCorner3_FGpercent, double RightCorner3_FGM, double RightCorner3_FGA, double RightCorner3_FGpercent, double Totals_FGM,  double Totals_FGA, double AboveBreak3_FGM, double AboveBreak3_FGA, double AboveBreak3_FGpercent) {
         this.name = name;
         this.RestrictArea_FGpercent = RestrictArea_FGpercent;
         this.Paint_FGpercent = Paint_FGpercent;
@@ -70,8 +70,8 @@ public class Player {
         this.AboveBreak3_FGM = AboveBreak3_FGM;
         this.Totals_FGM = Totals_FGM;
 
-        this.twoPTA = this.RestrictArea_FGA + this.Paint_FGA + this.MidRange_FGA;
-        this.threePTA = this.LeftCorner3_FGA + this. RightCorner3_FGA + this.AboveBreak3_FGA;
+        this.twoPTA = (int)(this.RestrictArea_FGA + this.Paint_FGA + this.MidRange_FGA);
+        this.threePTA = (int)(this.LeftCorner3_FGA + this. RightCorner3_FGA + this.AboveBreak3_FGA);
 
         double TwoPTpercent;
         double ThreePTpercent;
@@ -92,7 +92,7 @@ public class Player {
         threePTM = 0;
         threePTA = 0;
 
-        fga = this.RestrictArea_FGA + this.Paint_FGA + this.MidRange_FGA + this.LeftCorner3_FGA + this.RightCorner3_FGA + this.AboveBreak3_FGA;
+        fga = (int)(this.RestrictArea_FGA + this.Paint_FGA + this.MidRange_FGA + this.LeftCorner3_FGA + this.RightCorner3_FGA + this.AboveBreak3_FGA);
 
         boolean[] lotsOfShots2 = new boolean[1000];
         boolean[] lotsOfShots3 = new boolean[1000];
