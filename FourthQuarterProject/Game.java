@@ -54,6 +54,10 @@ public class Game {
         this.numPossesions = numPossesions;
 
     }
+    public Game()
+    {
+    
+    }
 
     /**
      * Adds players to teams. 
@@ -174,7 +178,7 @@ public class Game {
             return new String[]{"error"}; // Error
         }
 
-        String playerNameWithBall = fgaOrder.get(turnsPlayed);
+        String playerNameWithBall = allAttempts.get(turnsPlayed);
         for(Player player : ArrayUtils.addAll(team1.get_players(), team2.get_players())) {
             if(player.get_name() == playerNameWithBall) {
                 playerWithBall = player;
