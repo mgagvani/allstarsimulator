@@ -39,6 +39,9 @@ public class Team {
      * @param player Player object
      */
     public void addPlayer(Player player) {
+        if(appendIdx > 4) {
+            appendIdx = 0;
+        }
         players[appendIdx] = player;
         appendIdx += 1;
     }
