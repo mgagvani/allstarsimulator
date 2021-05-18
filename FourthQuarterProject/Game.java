@@ -4,12 +4,10 @@
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Collections;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -178,7 +176,9 @@ public class Game {
             return new String[]{"error"}; // Error
         }
 
-        String playerNameWithBall = allAttempts.get(turnsPlayed);
+        // System.out.println(fgaOrder);
+        // System.out.println(allAttempts);
+        String playerNameWithBall = fgaOrder.get(turnsPlayed);
         for(Player player : ArrayUtils.addAll(team1.get_players(), team2.get_players())) {
             if(player.get_name() == playerNameWithBall) {
                 playerWithBall = player;
