@@ -55,7 +55,27 @@ public class AllStarPanel extends JPanel{
    Boolean firstpressedt2 = false;
    
    
+   Player p1t1 = new Player();
+   Player p2t1 = new Player();
+   Player p3t1 = new Player();
+   Player p4t1 = new Player();
+   Player p5t1 = new Player();
    
+   Player p1t2 = new Player();
+   Player p2t2 = new Player();
+   Player p3t2 = new Player();
+   Player p4t2 = new Player();
+   Player p5t2 = new Player();
+   
+   ArrayList<Player> allPlayers = new ArrayList<>();
+   Player [] allPlayersArray;
+   Team [] teams;
+   
+   Team t1 = new Team("Donuts",0.5,0.5);
+   Team t2 = new Team("Hot Dogs", 0.5, 0.5);
+   int scoret1 = 0;
+   int scoret2 = 0;
+   Game game = new Game();
    
    
    
@@ -91,11 +111,14 @@ public class AllStarPanel extends JPanel{
       
    JLabel team2score = new JLabel("Score:");
    JButton start = new JButton("START");
+   
+   ArrayList<String> players = new ArrayList<>();
+   String line = "";
+      
    public AllStarPanel () 
    {
       // Working on this part
-      ArrayList<String> players = new ArrayList<>();
-      String line = "";
+      
       
       try{
          BufferedReader br = new BufferedReader(new FileReader("players.csv")); 
@@ -117,6 +140,17 @@ public class AllStarPanel extends JPanel{
       for(int x = 0; x < players.size();x+=25)
       {
          playerlist.addItem((players.get(x)));
+      }
+      
+      for (int x = 25; x < players.size(); x+=25)
+      {
+         
+         allPlayers.add(new Player(players.get(x),Double.parseDouble(players.get(x+4)),Double.parseDouble(players.get(x+5)),Double.parseDouble(players.get(x+6)),Double.parseDouble(players.get(x+7)),Double.parseDouble(players.get(x+8)),Double.parseDouble(players.get(x+9)),Double.parseDouble(players.get(x+10)),Double.parseDouble(players.get(x+11)),Double.parseDouble(players.get(x+12)),Double.parseDouble(players.get(x+13)),Double.parseDouble(players.get(x+14)),Double.parseDouble(players.get(x+15)),Double.parseDouble(players.get(x+16)),Double.parseDouble(players.get(x+17)),Double.parseDouble(players.get(x+18)),Double.parseDouble(players.get(x+19)),Double.parseDouble(players.get(x+20)),Double.parseDouble(players.get(x+22)),Double.parseDouble(players.get(x+23)),Double.parseDouble(players.get(x+24))));
+      }
+      allPlayersArray = new Player[allPlayers.size()];
+      for(int x = 0; x < allPlayers.size(); x++)
+      {
+         allPlayersArray[x] = allPlayers.get(x);
       }
      
       
@@ -140,10 +174,11 @@ public class AllStarPanel extends JPanel{
       
       
       add(addt1);
-      add(deletet1);
-      
       add(addt2);
       
+      
+      
+      add(deletet1);
       add(deletet2);
       
       add(menuLabel);
@@ -212,9 +247,7 @@ public class AllStarPanel extends JPanel{
       
       
       
-      playerlist.addItem("test1");
-      playerlist.addItem("test2");
-      playerlist.addItem("test3");
+     
       
       
       
@@ -274,9 +307,30 @@ public class AllStarPanel extends JPanel{
    */
       public void actionPerformed(ActionEvent e)
       {
+      
+         t1.addPlayer(p1t1);
+         t1.addPlayer(p2t1);
+         t1.addPlayer(p3t1);
+         t1.addPlayer(p4t1);
+         t1.addPlayer(p5t1);
+         
+         t2.addPlayer(p1t2);
+         t2.addPlayer(p2t2);
+         t2.addPlayer(p3t2);
+         t2.addPlayer(p4t2);
+         t2.addPlayer(p5t2);
+         
+         teams = new Team[2];
+         teams[0] = t1;
+         teams[1] = t2;
+         
+         game = new Game(teams, allPlayersArray, 200);
+         
+         
+         
          try {
               
-            Timer timer = new Timer(40, 
+            Timer timer = new Timer(20, 
                new ActionListener() {
                   @Override
                     public void actionPerformed(ActionEvent e) {
@@ -295,6 +349,14 @@ public class AllStarPanel extends JPanel{
                         xPos = 0;
                      }
                      repaint();
+                     
+                     game.play_turn();
+                     scoret1 = game.get_team1_scores()[0] + game.get_team1_scores()[1] + game.get_team1_scores()[2] + game.get_team1_scores()[3] + game.get_team1_scores()[4];
+                     team1score.setText("Score " + scoret1);
+                     
+                     scoret2 = game.get_team2_scores()[0] + game.get_team1_scores()[1] + game.get_team1_scores()[2] + game.get_team1_scores()[3] + game.get_team1_scores()[4];
+                     team1score.setText("Score " + scoret2);
+                     
                   }
                 
                
@@ -307,7 +369,8 @@ public class AllStarPanel extends JPanel{
          {
          
          }
-      
+         
+         
       }
    }
    /**
@@ -324,6 +387,7 @@ public class AllStarPanel extends JPanel{
    */
       public void actionPerformed(ActionEvent e)
       {
+         int count = 0;
          if(firstpressed == true && playernumt1 != 0)
          {
             playernumt1 -=1;
@@ -340,27 +404,54 @@ public class AllStarPanel extends JPanel{
          if (playernumt1 == 1)
          {
             player1t1.setText("Player: " + playerlist.getSelectedItem().toString());
-               
+            while (!players.get(count).equals(playerlist.getSelectedItem().toString()))
+            {
+               count+=25;
+            }
+            p1t1 = new Player(players.get(count),Double.parseDouble(players.get(count+4)),Double.parseDouble(players.get(count+5)),Double.parseDouble(players.get(count+6)),Double.parseDouble(players.get(count+7)),Double.parseDouble(players.get(count+8)),Double.parseDouble(players.get(count+9)),Double.parseDouble(players.get(count+10)),Double.parseDouble(players.get(count+11)),Double.parseDouble(players.get(count+12)),Double.parseDouble(players.get(count+13)),Double.parseDouble(players.get(count+14)),Double.parseDouble(players.get(count+15)),Double.parseDouble(players.get(count+16)),Double.parseDouble(players.get(count+17)),Double.parseDouble(players.get(count+18)),Double.parseDouble(players.get(count+19)),Double.parseDouble(players.get(count+20)),Double.parseDouble(players.get(count+22)),Double.parseDouble(players.get(count+23)),Double.parseDouble(players.get(count+24)));
+            
          }
          else if (playernumt1 == 2)
          {
             player2t1.setText("Player: " + playerlist.getSelectedItem().toString());
+            while (!players.get(count).equals(playerlist.getSelectedItem().toString()))
+            {
+               count+=25;
+            } 
+            p2t1 = new Player(players.get(count),Double.parseDouble(players.get(count+4)),Double.parseDouble(players.get(count+5)),Double.parseDouble(players.get(count+6)),Double.parseDouble(players.get(count+7)),Double.parseDouble(players.get(count+8)),Double.parseDouble(players.get(count+9)),Double.parseDouble(players.get(count+10)),Double.parseDouble(players.get(count+11)),Double.parseDouble(players.get(count+12)),Double.parseDouble(players.get(count+13)),Double.parseDouble(players.get(count+14)),Double.parseDouble(players.get(count+15)),Double.parseDouble(players.get(count+16)),Double.parseDouble(players.get(count+17)),Double.parseDouble(players.get(count+18)),Double.parseDouble(players.get(count+19)),Double.parseDouble(players.get(count+20)),Double.parseDouble(players.get(count+22)),Double.parseDouble(players.get(count+23)),Double.parseDouble(players.get(count+24)));
                
          }
          else if (playernumt1 == 3)
          {
             player3t1.setText("Player: " + playerlist.getSelectedItem().toString());
+            while (!players.get(count).equals(playerlist.getSelectedItem().toString()))
+            {
+               count+=25;
+            } 
+            p3t1 = new Player(players.get(count),Double.parseDouble(players.get(count+4)),Double.parseDouble(players.get(count+5)),Double.parseDouble(players.get(count+6)),Double.parseDouble(players.get(count+7)),Double.parseDouble(players.get(count+8)),Double.parseDouble(players.get(count+9)),Double.parseDouble(players.get(count+10)),Double.parseDouble(players.get(count+11)),Double.parseDouble(players.get(count+12)),Double.parseDouble(players.get(count+13)),Double.parseDouble(players.get(count+14)),Double.parseDouble(players.get(count+15)),Double.parseDouble(players.get(count+16)),Double.parseDouble(players.get(count+17)),Double.parseDouble(players.get(count+18)),Double.parseDouble(players.get(count+19)),Double.parseDouble(players.get(count+20)),Double.parseDouble(players.get(count+22)),Double.parseDouble(players.get(count+23)),Double.parseDouble(players.get(count+24)));
                
          }
          else if (playernumt1 == 4)
          {
             player4t1.setText("Player: " + playerlist.getSelectedItem().toString());
+            while (!players.get(count).equals(playerlist.getSelectedItem().toString()))
+            {
+               count+=25;
+            } 
+            p4t1 = new Player(players.get(count),Double.parseDouble(players.get(count+4)),Double.parseDouble(players.get(count+5)),Double.parseDouble(players.get(count+6)),Double.parseDouble(players.get(count+7)),Double.parseDouble(players.get(count+8)),Double.parseDouble(players.get(count+9)),Double.parseDouble(players.get(count+10)),Double.parseDouble(players.get(count+11)),Double.parseDouble(players.get(count+12)),Double.parseDouble(players.get(count+13)),Double.parseDouble(players.get(count+14)),Double.parseDouble(players.get(count+15)),Double.parseDouble(players.get(count+16)),Double.parseDouble(players.get(count+17)),Double.parseDouble(players.get(count+18)),Double.parseDouble(players.get(count+19)),Double.parseDouble(players.get(count+20)),Double.parseDouble(players.get(count+22)),Double.parseDouble(players.get(count+23)),Double.parseDouble(players.get(count+24)));
                
          }
          else if (playernumt1 == 5)
          {
             player5t1.setText("Player: " + playerlist.getSelectedItem().toString());
-            playernumt1+=1;
+            
+            
+            while (!players.get(count).equals(playerlist.getSelectedItem().toString()))
+            {
+               count+=25;
+            } 
+            p5t1 = new Player(players.get(count),Double.parseDouble(players.get(count+4)),Double.parseDouble(players.get(count+5)),Double.parseDouble(players.get(count+6)),Double.parseDouble(players.get(count+7)),Double.parseDouble(players.get(count+8)),Double.parseDouble(players.get(count+9)),Double.parseDouble(players.get(count+10)),Double.parseDouble(players.get(count+11)),Double.parseDouble(players.get(count+12)),Double.parseDouble(players.get(count+13)),Double.parseDouble(players.get(count+14)),Double.parseDouble(players.get(count+15)),Double.parseDouble(players.get(count+16)),Double.parseDouble(players.get(count+17)),Double.parseDouble(players.get(count+18)),Double.parseDouble(players.get(count+19)),Double.parseDouble(players.get(count+20)),Double.parseDouble(players.get(count+22)),Double.parseDouble(players.get(count+23)),Double.parseDouble(players.get(count+24)));
+            
                
          }
          
@@ -380,6 +471,7 @@ public class AllStarPanel extends JPanel{
    */
       public void actionPerformed(ActionEvent e)
       {
+         int count = 0;
          if(firstpressedt2 == true && playernumt2 != 0)
          {
             playernumt2 -=1;
@@ -397,27 +489,47 @@ public class AllStarPanel extends JPanel{
          if (playernumt2 == 1)
          {
             player1t2.setText("Player: " + playerlist.getSelectedItem().toString());
-               
+            while (!players.get(count).equals(playerlist.getSelectedItem().toString()))
+            {
+               count+=25;
+            }
+            p1t2 = new Player(players.get(count),Double.parseDouble(players.get(count+4)),Double.parseDouble(players.get(count+5)),Double.parseDouble(players.get(count+6)),Double.parseDouble(players.get(count+7)),Double.parseDouble(players.get(count+8)),Double.parseDouble(players.get(count+9)),Double.parseDouble(players.get(count+10)),Double.parseDouble(players.get(count+11)),Double.parseDouble(players.get(count+12)),Double.parseDouble(players.get(count+13)),Double.parseDouble(players.get(count+14)),Double.parseDouble(players.get(count+15)),Double.parseDouble(players.get(count+16)),Double.parseDouble(players.get(count+17)),Double.parseDouble(players.get(count+18)),Double.parseDouble(players.get(count+19)),Double.parseDouble(players.get(count+20)),Double.parseDouble(players.get(count+22)),Double.parseDouble(players.get(count+23)),Double.parseDouble(players.get(count+24)));   
          }
          else if (playernumt2 == 2)
          {
             player2t2.setText("Player: " + playerlist.getSelectedItem().toString());
-               
+            while (!players.get(count).equals(playerlist.getSelectedItem().toString()))
+            {
+               count+=25;
+            }
+            p2t2 = new Player(players.get(count),Double.parseDouble(players.get(count+4)),Double.parseDouble(players.get(count+5)),Double.parseDouble(players.get(count+6)),Double.parseDouble(players.get(count+7)),Double.parseDouble(players.get(count+8)),Double.parseDouble(players.get(count+9)),Double.parseDouble(players.get(count+10)),Double.parseDouble(players.get(count+11)),Double.parseDouble(players.get(count+12)),Double.parseDouble(players.get(count+13)),Double.parseDouble(players.get(count+14)),Double.parseDouble(players.get(count+15)),Double.parseDouble(players.get(count+16)),Double.parseDouble(players.get(count+17)),Double.parseDouble(players.get(count+18)),Double.parseDouble(players.get(count+19)),Double.parseDouble(players.get(count+20)),Double.parseDouble(players.get(count+22)),Double.parseDouble(players.get(count+23)),Double.parseDouble(players.get(count+24)));   
          }
          else if (playernumt2 == 3)
          {
             player3t2.setText("Player: " + playerlist.getSelectedItem().toString());
-               
+             while (!players.get(count).equals(playerlist.getSelectedItem().toString()))
+            {
+               count+=25;
+            }
+            p3t2 = new Player(players.get(count),Double.parseDouble(players.get(count+4)),Double.parseDouble(players.get(count+5)),Double.parseDouble(players.get(count+6)),Double.parseDouble(players.get(count+7)),Double.parseDouble(players.get(count+8)),Double.parseDouble(players.get(count+9)),Double.parseDouble(players.get(count+10)),Double.parseDouble(players.get(count+11)),Double.parseDouble(players.get(count+12)),Double.parseDouble(players.get(count+13)),Double.parseDouble(players.get(count+14)),Double.parseDouble(players.get(count+15)),Double.parseDouble(players.get(count+16)),Double.parseDouble(players.get(count+17)),Double.parseDouble(players.get(count+18)),Double.parseDouble(players.get(count+19)),Double.parseDouble(players.get(count+20)),Double.parseDouble(players.get(count+22)),Double.parseDouble(players.get(count+23)),Double.parseDouble(players.get(count+24)));  
          }
          else if (playernumt2 == 4)
          {
             player4t2.setText("Player: " + playerlist.getSelectedItem().toString());
-               
+            while (!players.get(count).equals(playerlist.getSelectedItem().toString()))
+            {
+               count+=25;
+            }
+            p4t2 = new Player(players.get(count),Double.parseDouble(players.get(count+4)),Double.parseDouble(players.get(count+5)),Double.parseDouble(players.get(count+6)),Double.parseDouble(players.get(count+7)),Double.parseDouble(players.get(count+8)),Double.parseDouble(players.get(count+9)),Double.parseDouble(players.get(count+10)),Double.parseDouble(players.get(count+11)),Double.parseDouble(players.get(count+12)),Double.parseDouble(players.get(count+13)),Double.parseDouble(players.get(count+14)),Double.parseDouble(players.get(count+15)),Double.parseDouble(players.get(count+16)),Double.parseDouble(players.get(count+17)),Double.parseDouble(players.get(count+18)),Double.parseDouble(players.get(count+19)),Double.parseDouble(players.get(count+20)),Double.parseDouble(players.get(count+22)),Double.parseDouble(players.get(count+23)),Double.parseDouble(players.get(count+24)));   
          }
          else if (playernumt2 == 5)
          {
             player5t2.setText("Player: " + playerlist.getSelectedItem().toString());
-               
+            while (!players.get(count).equals(playerlist.getSelectedItem().toString()))
+            {
+               count+=25;
+            }
+            p5t2 = new Player(players.get(count),Double.parseDouble(players.get(count+4)),Double.parseDouble(players.get(count+5)),Double.parseDouble(players.get(count+6)),Double.parseDouble(players.get(count+7)),Double.parseDouble(players.get(count+8)),Double.parseDouble(players.get(count+9)),Double.parseDouble(players.get(count+10)),Double.parseDouble(players.get(count+11)),Double.parseDouble(players.get(count+12)),Double.parseDouble(players.get(count+13)),Double.parseDouble(players.get(count+14)),Double.parseDouble(players.get(count+15)),Double.parseDouble(players.get(count+16)),Double.parseDouble(players.get(count+17)),Double.parseDouble(players.get(count+18)),Double.parseDouble(players.get(count+19)),Double.parseDouble(players.get(count+20)),Double.parseDouble(players.get(count+22)),Double.parseDouble(players.get(count+23)),Double.parseDouble(players.get(count+24)));   
          }
             
       }
@@ -562,16 +674,5 @@ public class AllStarPanel extends JPanel{
          }
       }
    }
-   private class Animation implements ActionListener
-   {
-   /**
-   * Runs animation
-   *
-   * @param actionEvent e
-   */
-      public void actionPerformed(ActionEvent e)
-      {
-            
-      }
-   }
+   
 }
