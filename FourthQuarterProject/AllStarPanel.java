@@ -326,7 +326,12 @@ public class AllStarPanel extends JPanel{
          
          game = new Game(teams, allPlayersArray, 200);
          
+         String[] team1players = new String[]{p1t1.get_name(),p2t1.get_name(),p3t1.get_name(),p4t1.get_name(),p5t1.get_name()};
+         String[] team2players = new String[]{p1t2.get_name(),p2t2.get_name(),p3t2.get_name(),p4t2.get_name(),p5t2.get_name()};
          
+         game = new Game(teams, allPlayersArray, 200);
+         
+         game.add_players_to_teams(team1players, team2players);
          
          try {
               
