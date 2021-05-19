@@ -38,7 +38,6 @@ import java.io.*;
 * @param team2p3Stats_Label
 * @param team2p4Stats_Label
 * @param team2p5Stats_Label
-
 * @param Directions_Label  Information on how to run the simulation
    
 */
@@ -47,7 +46,7 @@ public class AllStarPanel extends JPanel{
    BufferedImage image;
    BufferedImage hoop;
    int xPos = 0;
-   int yPos = 600;
+   int yPos = 650;
    int direction =1;
    int playernumt1 = 0;
    int playernumt2 = 0;
@@ -70,6 +69,11 @@ public class AllStarPanel extends JPanel{
    ArrayList<Player> allPlayers = new ArrayList<>();
    Player [] allPlayersArray;
    Team [] teams;
+   
+   int [] team1scores = new int [5];
+   int [] team2scores = new int [5];
+   
+   String [] turnResult;
    
    Team t1 = new Team("Donuts",0.5,0.5);
    Team t2 = new Team("Hot Dogs", 0.5, 0.5);
@@ -112,6 +116,11 @@ public class AllStarPanel extends JPanel{
    JLabel team2score = new JLabel("Score:");
    JButton start = new JButton("START");
    
+   JLabel score = new JLabel("0:0");
+   JLabel info = new JLabel("Info");
+   Boolean flag = false;
+   
+   
    ArrayList<String> players = new ArrayList<>();
    String line = "";
       
@@ -153,8 +162,10 @@ public class AllStarPanel extends JPanel{
          allPlayersArray[x] = allPlayers.get(x);
       }
      
+     JPanel top = new JPanel();
+     
       
-      setLayout(new GridLayout(20,2));
+     top.setLayout(new GridLayout(0,2));
       
       start.addActionListener(new StartPressed());
       addt1.addActionListener(new SelectDropDownTeam1());
@@ -167,51 +178,64 @@ public class AllStarPanel extends JPanel{
       
       
       
+      
    
-      add(directions);
+      top.add(directions);
       
-      add(directions2); 
-      
-      
-      add(addt1);
-      add(addt2);
+      top.add(directions2); 
       
       
-      
-      add(deletet1);
-      add(deletet2);
-      
-      add(menuLabel);
-      add(new JLabel()); //used to occupy a slot allowing the formatting to look better
-      
-      add(playerlist);
-      
-      add(new JLabel());
-      
-      add(team1score);
-      add(team2score);
-      
-      add(team1);
-      add(team2);
-      
-      add(player1t1);
-      add(player1t2);
-      
-      add(player2t1);
-      add(player2t2);
-      
-      add(player3t1);
-      add(player3t2);
-      
-      add(player4t1);
-      add(player4t2);
-      
-      add(player5t1);
-      add(player5t2);
+      top.add(addt1);
+      top.add(addt2);
       
       
       
-      add(start);
+      top.add(deletet1);
+      top.add(deletet2);
+      
+      top.add(menuLabel);
+      top.add(new JLabel()); //used to occupy a slot allowing the formatting to look better
+      
+      top.add(playerlist);
+      
+      top.add(new JLabel());
+      
+      top.add(team1score);
+      top.add(team2score);
+      
+      top.add(team1);
+      top.add(team2);
+      
+      top.add(player1t1);
+      top.add(player1t2);
+      
+      top.add(player2t1);
+      top.add(player2t2);
+      
+      top.add(player3t1);
+      top.add(player3t2);
+      
+      top.add(player4t1);
+      top.add(player4t2);
+      
+      top.add(player5t1);
+      top.add(player5t2);
+      
+      
+      
+      top.add(start);
+      
+      add(top, BorderLayout.NORTH);
+      
+      JPanel subPanel = new JPanel();
+      subPanel.setLayout(new GridLayout(0,1));
+      //score.setBounds(600,0, 150, 100);
+      score.setFont(new Font("Serif", Font.PLAIN, 100));
+      subPanel.add(score);
+      //info.setBounds(600,0, 150, 100);
+      info.setFont(new Font("Serif", Font.PLAIN, 50));
+      subPanel.add(info);
+      add(subPanel, BorderLayout.SOUTH);
       try{
       
          image = ImageIO.read(new File("basketball.png"));
@@ -265,7 +289,7 @@ public class AllStarPanel extends JPanel{
    {
       super.paintComponent(g);
       g.drawImage(image, xPos,yPos,50,50, this);
-      g.drawImage(hoop, 170,560,250,250, this);
+      g.drawImage(hoop, 170,600,250,250, this);
       
    }
   
@@ -307,7 +331,7 @@ public class AllStarPanel extends JPanel{
    */
       public void actionPerformed(ActionEvent e)
       {
-      
+         flag = false;
          t1.addPlayer(p1t1);
          t1.addPlayer(p2t1);
          t1.addPlayer(p3t1);
@@ -337,7 +361,9 @@ public class AllStarPanel extends JPanel{
                new ActionListener() {
                   @Override
                     public void actionPerformed(ActionEvent e) {
-                     yPos = (int)((0.005)*(Math.pow(xPos, 2))) - xPos + 600;
+                    if (flag == false)
+                    {
+                     yPos = (int)((0.006)*(Math.pow(xPos, 2)) - 1.3*xPos + 670);
                      xPos += direction;
                      if (xPos + image.getWidth() > getWidth()+50) {
                         xPos = getWidth() - image.getWidth();
@@ -346,21 +372,27 @@ public class AllStarPanel extends JPanel{
                         xPos = 0;
                         direction *= -1;
                      }
-                     if (yPos + image.getHeight() > getHeight() +190)
+                     if (yPos + image.getHeight() > getHeight() +240 && xPos > 200)
                      {
-                     
+                        
                         xPos = 0;
                      }
                      repaint();
                      
-                     game.play_turn();
+                     turnResult = game.play_turn();
                      // scoret1 = game.get_team1_scores()[0] + game.get_team1_scores()[1] + game.get_team1_scores()[2] + game.get_team1_scores()[3] + game.get_team1_scores()[4];
                      scoret1 = game.get_team1_score();
-                     System.out.println(scoret1);
-                     team1score.setText("Score " + scoret1);
+                     scoret2 = game.get_team2_score();
+                     //System.out.println(scoret1);
+                     score.setText(scoret1 + ":" + scoret2);
+                     if(turnResult.length == 3)
+                     info.setText(turnResult[2]);
+                     else
+                     flag = true;
                      
                      // scoret2 = game.get_team2_scores()[0] + game.get_team1_scores()[1] + game.get_team1_scores()[2] + game.get_team1_scores()[3] + game.get_team1_scores()[4];
-                     team1score.setText("Score " + scoret2);
+                     //team1score.setText("Score " + scoret2);
+                     }
                      
                   }
                 
@@ -570,6 +602,20 @@ public class AllStarPanel extends JPanel{
    */
       public void actionPerformed(ActionEvent e)
       {
+            player1t1.setText("Player 1");
+            player2t1.setText("Player 2");
+            player3t1.setText("Player 3");
+            player4t1.setText("Player 4");
+            player5t1.setText("Player 5");
+            
+            player1t2.setText("Player 1");
+            player2t2.setText("Player 2");
+            player3t2.setText("Player 3");
+            player4t2.setText("Player 4");
+            player5t2.setText("Player 5");
+            
+            score.setText("0:0");
+            info.setText("Info:");
             
       }
    }
@@ -681,3 +727,4 @@ public class AllStarPanel extends JPanel{
    }
    
 }
+
