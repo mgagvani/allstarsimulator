@@ -170,7 +170,13 @@ public class Game {
     public String[] play_turn() {
         String turnoutcome = "";
         // private Player playerWithBall;
-        List<Player> playingPlayers = new ArrayList<Player>(); // not being used for now?
+        List<Player> playingPlayers = new ArrayList<Player>(); 
+        for(Player p : team1.get_players()) {
+            playingPlayers.add(p);
+        }
+        for(Player q: team2.get_players()) {
+            playingPlayers.add(q);
+        }
 
         if(turnsPlayed >= numPossesions) {
             return new String[]{"error"}; // Error
@@ -189,7 +195,9 @@ public class Game {
         turnoutcome = "" + playerNameWithBall + "did not score";
 
         int[] poss = new int[] {2,3};
-        int position = new Random().nextInt(poss.length);
+        int position = poss[new Random().nextInt(poss.length)];
+
+        System.out.println(position);
 
         if(position == 3) {
             boolean make = playerWithBall.shoot3pt(turnsPlayed);
@@ -214,7 +222,7 @@ public class Game {
             else if(!make) {
                 playerWithBall.add_attempt(3);
                 Random rand = new Random();
-                playerWithBall = playingPlayers.get(rand.nextInt(playingPlayers.size()));
+                playerWithBall = playingPlayers.get(rand.nextInt(10)); // hard code for now
             }
         }
 
@@ -241,18 +249,18 @@ public class Game {
             else if(!make) {
                 playerWithBall.add_attempt(2);
                 Random rand = new Random();
-                playerWithBall = playingPlayers.get(rand.nextInt(playingPlayers.size()));
+                playerWithBall = playingPlayers.get(rand.nextInt(10)); // hard code for now
             }
         }
 
         turnsPlayed += 1;
-        
+        System.out.println(turnoutcome);
         return new String[] {""+team1score,""+team2score,turnoutcome};
     }
 
     /**
      * Gets team 1's score.
-     * @return team 1's score
+     * @return team 1's scores
      */
     public int[] get_team1_scores() {
         return team1.get_scores();
@@ -260,10 +268,24 @@ public class Game {
 
     /**
      * @see get_team1_scores()
-     * @return team 2's score
+     * @return team 2's scores
      */
     public int[] get_team2_scores() {
         return team2.get_scores();
+    }
+
+    /**
+     * @return Team 1's total score
+     */
+    public int get_team1_score() {
+        return team1score;
+    }
+
+    /**
+     * @return Team 2's total score
+     */
+    public int get_team2_score() {
+        return team2score;
     }
 
     /**
