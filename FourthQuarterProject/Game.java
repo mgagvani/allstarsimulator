@@ -4,6 +4,7 @@
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,14 +84,12 @@ public class Game {
             }
         }
 
-        // still need to find out distribution of possesions for players 
-        // THIS IS INCOMPLETE
         Map<String, Integer> playerFGAs = new HashMap<>();
         List<String> allAttempts = new ArrayList<String>();
 
-        // String[] allPlayerNames = ArrayUtils.addAll(team1players, team2players);
-        String[] allPlayerNames = Arrays.copyOf(team1players, team1players.length + team2players.length);
-        System.arraycopy(team2players, 0, allPlayerNames, team1players.length, team2players.length);
+        String[] allPlayerNames = ArrayUtils.addAll(team1players, team2players);
+        // String[] allPlayerNames = Arrays.copyOf(team1players, team1players.length + team2players.length);
+        // System.arraycopy(team2players, 0, allPlayerNames, team1players.length, team2players.length);
         int totalFGA = 0;
 
         for(String playerName: allPlayerNames) {
@@ -133,6 +132,7 @@ public class Game {
             allAttempts.add(i, allAttempts.get(j));
             allAttempts.add(j, temp);
         }
+        Collections.shuffle(allAttempts);
         fgaOrder = allAttempts;
 
         //if numPossessions is more than length of fgaOrder, add at the end
@@ -178,6 +178,8 @@ public class Game {
             playingPlayers.add(q);
         }
 
+        Collections.shuffle(playingPlayers);
+
         if(turnsPlayed >= numPossesions) {
             return new String[]{"error"}; // Error
         }
@@ -192,17 +194,17 @@ public class Game {
             }
         }
 
-        turnoutcome = "" + playerNameWithBall + "did not score";
+        turnoutcome = "" + playerNameWithBall + " did not score";
 
         int[] poss = new int[] {2,3};
         int position = poss[new Random().nextInt(poss.length)];
 
-        System.out.println(position);
+        // System.out.println(position);
 
         if(position == 3) {
             boolean make = playerWithBall.shoot3pt(turnsPlayed);
             if(make) {
-                turnoutcome = "" + playerNameWithBall + "made a 3-pointer";
+                turnoutcome = "" + playerNameWithBall + " made a 3-pointer";
                 if(ArrayUtils.contains(team1.get_players(), playerWithBall)) {
                     team1score += 3;
                     playerWithBall.add_score(3);
@@ -229,7 +231,7 @@ public class Game {
         if(position == 2) {
             boolean make = playerWithBall.shoot2pt(turnsPlayed);
             if(make) {
-                turnoutcome = "" + playerNameWithBall + "made a 2-pointer";
+                turnoutcome = "" + playerNameWithBall + " made a 2-pointer";
                 if(ArrayUtils.contains(team1.get_players(), playerWithBall)) {
                     team1score += 2;
                     playerWithBall.add_score(2);
@@ -254,7 +256,7 @@ public class Game {
         }
 
         turnsPlayed += 1;
-        System.out.println(turnoutcome);
+        // System.out.println(turnoutcome);
         return new String[] {""+team1score,""+team2score,turnoutcome};
     }
 
