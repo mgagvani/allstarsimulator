@@ -1,4 +1,4 @@
-# allstarsimulator
+![All Star Simulator](https://github.com/mgagvani/allstarsimulator/blob/main/Logo.png)
 
 All Star Simulator
 ==================
