@@ -38,6 +38,7 @@ import java.io.*;
 * @param team2p3Stats_Label
 * @param team2p4Stats_Label
 * @param team2p5Stats_Label
+
 * @param Directions_Label  Information on how to run the simulation
    
 */
@@ -69,11 +70,6 @@ public class AllStarPanel extends JPanel{
    ArrayList<Player> allPlayers = new ArrayList<>();
    Player [] allPlayersArray;
    Team [] teams;
-   
-   int [] team1scores = new int [5];
-   int [] team2scores = new int [5];
-   
-   String [] turnResult;
    
    Team t1 = new Team("Donuts",0.5,0.5);
    Team t2 = new Team("Hot Dogs", 0.5, 0.5);
@@ -327,9 +323,7 @@ public class AllStarPanel extends JPanel{
          teams = new Team[2];
          teams[0] = t1;
          teams[1] = t2;
-         
-         game = new Game(teams, allPlayersArray, 200);
-         
+
          String[] team1players = new String[]{p1t1.get_name(),p2t1.get_name(),p3t1.get_name(),p4t1.get_name(),p5t1.get_name()};
          String[] team2players = new String[]{p1t2.get_name(),p2t2.get_name(),p3t2.get_name(),p4t2.get_name(),p5t2.get_name()};
          
@@ -359,14 +353,14 @@ public class AllStarPanel extends JPanel{
                      }
                      repaint();
                      
-                     turnResult = game.play_turn();
-                     team1scores = game.get_team1_scores();
+                     game.play_turn();
+                     // scoret1 = game.get_team1_scores()[0] + game.get_team1_scores()[1] + game.get_team1_scores()[2] + game.get_team1_scores()[3] + game.get_team1_scores()[4];
+                     scoret1 = game.get_team1_score();
+                     System.out.println(scoret1);
                      team1score.setText("Score " + scoret1);
                      
-                     team2scores = game.get_team2_scores();
-                     team2score.setText("Score " + scoret2);
-                     System.out.println(turnResult[0] + turnResult[1] + turnResult[2]);
-                     //System.out.println(turnResult);
+                     // scoret2 = game.get_team2_scores()[0] + game.get_team1_scores()[1] + game.get_team1_scores()[2] + game.get_team1_scores()[3] + game.get_team1_scores()[4];
+                     team1score.setText("Score " + scoret2);
                      
                   }
                 
