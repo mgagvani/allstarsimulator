@@ -65,7 +65,7 @@ public class Game {
      * @param team1players Player names to be added to team 1 as Player objects.
      * @param team2players Player names to be added to team 2 as Player objects. 
      */
-    public void add_players_to_teams(String[] team1players, String[] team2players) {
+    public int add_players_to_teams(String[] team1players, String[] team2players) {
         for(String playerName : team1players) {
             for(Player player : players) {
                 if(player.get_name() == playerName) {
@@ -142,7 +142,7 @@ public class Game {
             String randomPlayerName = allPlayerNames[rand.nextInt(allPlayerNames.length)];
             fgaOrder.add(randomPlayerName);
         }
-
+        return numPossesions;
     }
 
     /**
@@ -257,7 +257,7 @@ public class Game {
 
         turnsPlayed += 1;
         // System.out.println(turnoutcome);
-        return new String[] {""+team1score,""+team2score,turnoutcome};
+        return new String[] {""+team1score,""+team2score,turnoutcome,""+turnsPlayed};
     }
 
     /**
