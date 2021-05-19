@@ -115,6 +115,8 @@ public class AllStarPanel extends JPanel{
       
    JLabel team2score = new JLabel("Score:");
    JButton start = new JButton("START");
+   JButton reset = new JButton("RESTART");
+   JButton cancel = new JButton("CANCEL");
    
    JLabel score = new JLabel("0:0");
    JLabel info = new JLabel("Info");
@@ -162,12 +164,14 @@ public class AllStarPanel extends JPanel{
          allPlayersArray[x] = allPlayers.get(x);
       }
      
-     JPanel top = new JPanel();
+      JPanel top = new JPanel();
      
       
-     top.setLayout(new GridLayout(0,2));
+      top.setLayout(new GridLayout(0,2));
       
       start.addActionListener(new StartPressed());
+      reset.addActionListener(new ResetPressed());
+      cancel.addActionListener(new CencelPressed());
       addt1.addActionListener(new SelectDropDownTeam1());
       addt2.addActionListener(new SelectDropDownTeam2());
       deletet1.addActionListener(new DeleteTeam1Pressed());
@@ -200,8 +204,7 @@ public class AllStarPanel extends JPanel{
       
       top.add(new JLabel());
       
-      top.add(team1score);
-      top.add(team2score);
+      
       
       top.add(team1);
       top.add(team2);
@@ -224,6 +227,8 @@ public class AllStarPanel extends JPanel{
       
       
       top.add(start);
+      top.add(reset);
+      top.add(cancel);
       
       add(top, BorderLayout.NORTH);
       
@@ -347,7 +352,7 @@ public class AllStarPanel extends JPanel{
          teams = new Team[2];
          teams[0] = t1;
          teams[1] = t2;
-
+      
          String[] team1players = new String[]{p1t1.get_name(),p2t1.get_name(),p3t1.get_name(),p4t1.get_name(),p5t1.get_name()};
          String[] team2players = new String[]{p1t2.get_name(),p2t2.get_name(),p3t2.get_name(),p4t2.get_name(),p5t2.get_name()};
          
@@ -361,34 +366,34 @@ public class AllStarPanel extends JPanel{
                new ActionListener() {
                   @Override
                     public void actionPerformed(ActionEvent e) {
-                    if (flag == false)
-                    {
-                     yPos = (int)((0.006)*(Math.pow(xPos, 2)) - 1.3*xPos + 670);
-                     xPos += direction;
-                     if (xPos + image.getWidth() > getWidth()+50) {
-                        xPos = getWidth() - image.getWidth();
-                        direction *= -1;
-                     } else if (xPos < 0) {
-                        xPos = 0;
-                        direction *= -1;
-                     }
-                     if (yPos + image.getHeight() > getHeight() +240 && xPos > 200)
+                     if (flag == false)
                      {
+                        yPos = (int)((0.006)*(Math.pow(xPos, 2)) - 1.3*xPos + 670);
+                        xPos += direction;
+                        if (xPos + image.getWidth() > getWidth()+50) {
+                           xPos = getWidth() - image.getWidth();
+                           direction *= -1;
+                        } else if (xPos < 0) {
+                           xPos = 0;
+                           direction *= -1;
+                        }
+                        if (yPos + image.getHeight() > getHeight() +240 && xPos > 200)
+                        {
                         
-                        xPos = 0;
-                     }
-                     repaint();
+                           xPos = 0;
+                        }
+                        repaint();
                      
-                     turnResult = game.play_turn();
+                        turnResult = game.play_turn();
                      // scoret1 = game.get_team1_scores()[0] + game.get_team1_scores()[1] + game.get_team1_scores()[2] + game.get_team1_scores()[3] + game.get_team1_scores()[4];
-                     scoret1 = game.get_team1_score();
-                     scoret2 = game.get_team2_score();
+                        scoret1 = game.get_team1_score();
+                        scoret2 = game.get_team2_score();
                      //System.out.println(scoret1);
-                     score.setText(scoret1 + ":" + scoret2);
-                     if(turnResult.length == 3)
-                     info.setText(turnResult[2]);
-                     else
-                     flag = true;
+                        score.setText(scoret1 + ":" + scoret2);
+                        if(turnResult.length == 3)
+                           info.setText(turnResult[2]);
+                        else
+                           flag = true;
                      
                      // scoret2 = game.get_team2_scores()[0] + game.get_team1_scores()[1] + game.get_team1_scores()[2] + game.get_team1_scores()[3] + game.get_team1_scores()[4];
                      //team1score.setText("Score " + scoret2);
@@ -544,7 +549,7 @@ public class AllStarPanel extends JPanel{
          else if (playernumt2 == 3)
          {
             player3t2.setText("Player: " + playerlist.getSelectedItem().toString());
-             while (!players.get(count).equals(playerlist.getSelectedItem().toString()))
+            while (!players.get(count).equals(playerlist.getSelectedItem().toString()))
             {
                count+=25;
             }
@@ -585,7 +590,7 @@ public class AllStarPanel extends JPanel{
    */
       public void actionPerformed(ActionEvent e)
       {
-            
+            flag = true;
       }
    }
    /**
@@ -602,6 +607,8 @@ public class AllStarPanel extends JPanel{
    */
       public void actionPerformed(ActionEvent e)
       {
+         if(flag == true)
+         {
             player1t1.setText("Player 1");
             player2t1.setText("Player 2");
             player3t1.setText("Player 3");
@@ -614,8 +621,41 @@ public class AllStarPanel extends JPanel{
             player4t2.setText("Player 4");
             player5t2.setText("Player 5");
             
+            p1t1.reset_score();
+            p1t1.reset_splits();
+            p2t1.reset_score();
+            p2t1.reset_splits();
+            p3t1.reset_score();
+            p3t1.reset_splits();
+            p4t1.reset_score();
+            p4t1.reset_splits();
+            p5t1.reset_score();
+            p5t1.reset_splits();
+            
+            p1t2.reset_score();
+            p1t2.reset_splits();
+            p2t2.reset_score();
+            p2t2.reset_splits();
+            p3t2.reset_score();
+            p3t2.reset_splits();
+            p4t2.reset_score();
+            p4t2.reset_splits();
+            p5t2.reset_score();
+            p5t2.reset_splits();
+            
             score.setText("0:0");
             info.setText("Info:");
+            
+            game.init_game();
+            
+            t1.reset_scores();
+            t1.reset_splits();
+            t2.reset_scores();
+            t2.reset_splits();
+            
+            playernumt1 = 0;
+            playernumt2 = 0;
+         }
             
       }
    }
@@ -727,4 +767,3 @@ public class AllStarPanel extends JPanel{
    }
    
 }
-
