@@ -180,7 +180,7 @@ public class AllStarPanel extends JPanel{
       deletet2.addActionListener(new DeleteTeam2Pressed());
       
       
-      
+      setBackground(Color.BLUE);
       
       
       
@@ -697,8 +697,10 @@ public class AllStarPanel extends JPanel{
             
             t1.reset_scores();
             t1.reset_splits();
+            t1.resetPlayers();
             t2.reset_scores();
             t2.reset_splits();
+            t2.resetPlayers();
             
             playernumt1 = 0;
             playernumt2 = 0;
