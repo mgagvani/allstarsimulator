@@ -79,6 +79,8 @@ public class AllStarPanel extends JPanel{
    Team t2 = new Team("Hot Dogs", 0.5, 0.5);
    int scoret1 = 0;
    int scoret2 = 0;
+   int delay = 0;
+   int quarter = 0;
    Game game = new Game();
    
    
@@ -115,11 +117,11 @@ public class AllStarPanel extends JPanel{
       
    JLabel team2score = new JLabel("Score:");
    JButton start = new JButton("START");
-   JButton reset = new JButton("CLEAR");
+   JButton reset = new JButton("RESET");
    JButton cancel = new JButton("CANCEL");
    
-   JLabel score = new JLabel("0:0");
-   JLabel info = new JLabel("Info");
+   JTextField score = new JTextField("0:0");
+   JTextField info = new JTextField("Info",40);
    Boolean flag = false;
    
    
@@ -238,7 +240,7 @@ public class AllStarPanel extends JPanel{
       score.setFont(new Font("Serif", Font.PLAIN, 100));
       subPanel.add(score);
       //info.setBounds(600,0, 150, 100);
-      info.setFont(new Font("Serif", Font.PLAIN, 50));
+      info.setFont(new Font("Serif", Font.PLAIN, 20));
       subPanel.add(info);
       add(subPanel, BorderLayout.SOUTH);
       try{
@@ -336,6 +338,8 @@ public class AllStarPanel extends JPanel{
    */
       public void actionPerformed(ActionEvent e)
       {
+         
+         
          flag = false;
          t1.addPlayer(p1t1);
          t1.addPlayer(p2t1);
@@ -348,6 +352,30 @@ public class AllStarPanel extends JPanel{
          t2.addPlayer(p3t2);
          t2.addPlayer(p4t2);
          t2.addPlayer(p5t2);
+         
+         for (int x = 0; x < 5 - 1; x++)
+         {
+            for (int y = x + 1; y < 5; y++)
+            {
+               if (t1.get_players()[x].get_name().compareTo(t1.get_players()[y].get_name()) == 0)
+               {
+                  info.setText("Duplicate players!");
+                  flag = true;
+               }
+            }
+         }
+         
+         for (int x = 0; x < 5 - 1; x++)
+         {
+            for (int y = x + 1; y < 5; y++)
+            {
+               if (t2.get_players()[x].get_name().compareTo(t2.get_players()[y].get_name()) == 0)
+               {
+                  info.setText("Duplicate players");
+                  flag = true;
+               }
+            }
+         }
          
          teams = new Team[2];
          teams[0] = t1;
@@ -383,18 +411,57 @@ public class AllStarPanel extends JPanel{
                            xPos = 0;
                         }
                         repaint();
-                     
-                        turnResult = game.play_turn();
-                        int currentPossesion = Integer.parseInt(turnResult[3]);
-                     // scoret1 = game.get_team1_scores()[0] + game.get_team1_scores()[1] + game.get_team1_scores()[2] + game.get_team1_scores()[3] + game.get_team1_scores()[4];
-                        scoret1 = game.get_team1_score();
-                        scoret2 = game.get_team2_score();
-                     //System.out.println(scoret1);
-                        score.setText(scoret1 + " : " + scoret2);
-                        if(turnResult.length == 4)
-                           info.setText(turnResult[2]);
-                        else
-                           flag = true;
+                        delay++;
+                        if (delay % 10 == 0)
+                        {
+                           turnResult = game.play_turn();
+                           
+                        // scoret1 = game.get_team1_scores()[0] + game.get_team1_scores()[1] + game.get_team1_scores()[2] + game.get_team1_scores()[3] + game.get_team1_scores()[4];
+                           scoret1 = game.get_team1_score();
+                           scoret2 = game.get_team2_score();
+                        //System.out.println(scoret1);
+                           score.setText(scoret1 + " : " + scoret2);
+                           if(turnResult.length == 4)
+                           {
+                              
+                              
+                              int currentPossession = Integer.parseInt(turnResult[3]);
+                              if (currentPossession < 0.25 * numPossessions)
+                              {
+                                 quarter = 1;
+                              }
+                              else if (currentPossession < 0.5 * numPossessions)
+                              {
+                                 quarter = 2;
+                              }
+                              else if (currentPossession < 0.75 * numPossessions)
+                              {
+                                 quarter = 3;
+                              }
+                              else
+                              {
+                                 quarter = 4;
+                              }
+                           
+                              info.setText("Quarter: " + quarter + " " + turnResult[2]);
+                           }
+                           else
+                              flag = true;
+                              
+                           delay = 0;
+                           
+                           player1t1.setText("Player: " + p1t1.get_name() + " points: " + game.get_team1_scores()[0]);
+                           player2t1.setText("Player: " + p2t1.get_name() + " points: " + game.get_team1_scores()[1]);
+                           player3t1.setText("Player: " + p3t1.get_name() + " points: " + game.get_team1_scores()[2]);
+                           player4t1.setText("Player: " + p4t1.get_name() + " points: " + game.get_team1_scores()[3]);
+                           player5t1.setText("Player: " + p5t1.get_name() + " points: " + game.get_team1_scores()[4]);
+                           
+                           player1t2.setText("Player: " + p1t2.get_name() + " points: " + game.get_team2_scores()[0]);
+                           player2t2.setText("Player: " + p2t2.get_name() + " points: " + game.get_team2_scores()[1]);
+                           player3t2.setText("Player: " + p3t2.get_name() + " points: " + game.get_team2_scores()[2]);
+                           player4t2.setText("Player: " + p4t2.get_name() + " points: " + game.get_team2_scores()[3]);
+                           player5t2.setText("Player: " + p5t2.get_name() + " points: " + game.get_team2_scores()[4]);
+                        }
                      
                      // scoret2 = game.get_team2_scores()[0] + game.get_team1_scores()[1] + game.get_team1_scores()[2] + game.get_team1_scores()[3] + game.get_team1_scores()[4];
                      //team1score.setText("Score " + scoret2);
@@ -591,7 +658,7 @@ public class AllStarPanel extends JPanel{
    */
       public void actionPerformed(ActionEvent e)
       {
-            flag = true;
+         flag = true;
       }
    }
    /**
@@ -622,27 +689,6 @@ public class AllStarPanel extends JPanel{
             player4t2.setText("Player 4");
             player5t2.setText("Player 5");
             
-            p1t1.reset_score();
-            p1t1.reset_splits();
-            p2t1.reset_score();
-            p2t1.reset_splits();
-            p3t1.reset_score();
-            p3t1.reset_splits();
-            p4t1.reset_score();
-            p4t1.reset_splits();
-            p5t1.reset_score();
-            p5t1.reset_splits();
-            
-            p1t2.reset_score();
-            p1t2.reset_splits();
-            p2t2.reset_score();
-            p2t2.reset_splits();
-            p3t2.reset_score();
-            p3t2.reset_splits();
-            p4t2.reset_score();
-            p4t2.reset_splits();
-            p5t2.reset_score();
-            p5t2.reset_splits();
             
             score.setText("0:0");
             info.setText("Info:");
