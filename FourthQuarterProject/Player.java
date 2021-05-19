@@ -94,17 +94,17 @@ public class Player {
 
         fga = (int)(this.RestrictArea_FGA + this.Paint_FGA + this.MidRange_FGA + this.LeftCorner3_FGA + this.RightCorner3_FGA + this.AboveBreak3_FGA);
 
-        boolean[] lotsOfShots2 = new boolean[1000];
-        boolean[] lotsOfShots3 = new boolean[1000];
+        this.lotsOfShots2 = new boolean[1000];
+        this.lotsOfShots3 = new boolean[1000];
 
         for(int i = 0; i < 1000; i++) {
             double rand = Math.random();
             // calculate 3 pt
-            if(rand < ThreePTpercent) lotsOfShots3[i] = true;
-            else if(rand > ThreePTpercent) lotsOfShots3[i] = false;
+            if(rand < ThreePTpercent) this.lotsOfShots3[i] = true;
+            else if(rand > ThreePTpercent) this.lotsOfShots3[i] = false;
             // calculate 2 pt
-            if(rand < TwoPTpercent) lotsOfShots2[i] = true;
-            else if(rand > TwoPTpercent) lotsOfShots2[i] = false;
+            if(rand < TwoPTpercent) this.lotsOfShots2[i] = true;
+            else if(rand > TwoPTpercent) this.lotsOfShots2[i] = false;
         }
 
     }
@@ -116,7 +116,7 @@ public class Player {
      * @param points Adds the specified amount of points to the player's pointsScored variable
      */
     public void add_score(int points) {
-        pointsScored += points;
+        this.pointsScored += points;
     }
 
     /**
@@ -212,7 +212,8 @@ public class Player {
      * @return If the shot was made or not
      */
     public boolean shoot3pt(int turn) {
-        if(lotsOfShots3[turn] == true) return true;
+        System.out.println("turn" + turn + "lotsofshots" + lotsOfShots3);
+        if(lotsOfShots3[turn] == true) {return true;}
         else {return false;}
     }
 }
