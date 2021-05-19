@@ -115,7 +115,7 @@ public class AllStarPanel extends JPanel{
       
    JLabel team2score = new JLabel("Score:");
    JButton start = new JButton("START");
-   JButton reset = new JButton("RESTART");
+   JButton reset = new JButton("CLEAR");
    JButton cancel = new JButton("CANCEL");
    
    JLabel score = new JLabel("0:0");
@@ -358,7 +358,7 @@ public class AllStarPanel extends JPanel{
          
          game = new Game(teams, allPlayersArray, 200);
          
-         game.add_players_to_teams(team1players, team2players);
+         int numPossessions = game.add_players_to_teams(team1players, team2players);
          
          try {
               
@@ -385,12 +385,13 @@ public class AllStarPanel extends JPanel{
                         repaint();
                      
                         turnResult = game.play_turn();
+                        int currentPossesion = Integer.parseInt(turnResult[3]);
                      // scoret1 = game.get_team1_scores()[0] + game.get_team1_scores()[1] + game.get_team1_scores()[2] + game.get_team1_scores()[3] + game.get_team1_scores()[4];
                         scoret1 = game.get_team1_score();
                         scoret2 = game.get_team2_score();
                      //System.out.println(scoret1);
-                        score.setText(scoret1 + ":" + scoret2);
-                        if(turnResult.length == 3)
+                        score.setText(scoret1 + " : " + scoret2);
+                        if(turnResult.length == 4)
                            info.setText(turnResult[2]);
                         else
                            flag = true;
