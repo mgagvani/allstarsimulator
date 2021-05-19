@@ -81,6 +81,9 @@ public class AllStarPanel extends JPanel{
    int scoret2 = 0;
    int delay = 0;
    int quarter = 0;
+   
+   String team1s = "";
+   String team2s = "";
    Game game = new Game();
    
    
@@ -97,7 +100,7 @@ public class AllStarPanel extends JPanel{
       
    JComboBox playerlist = new JComboBox();
       
-   JLabel team1 = new JLabel("Team One:");
+   JLabel team1 = new JLabel("The Untouchaballs:");
       
    JLabel player1t1 = new JLabel("player 1");
    JLabel player2t1 = new JLabel("player 2");
@@ -107,7 +110,7 @@ public class AllStarPanel extends JPanel{
       
    JLabel team1score = new JLabel("Score:");
       
-   JLabel team2 = new JLabel("Team Two:");
+   JLabel team2 = new JLabel("Swish Kebabs:");
       
    JLabel player1t2 = new JLabel("player 1");
    JLabel player2t2 = new JLabel("player 2");
@@ -123,6 +126,7 @@ public class AllStarPanel extends JPanel{
    JTextField score = new JTextField("0:0");
    JTextField info = new JTextField("Info",40);
    Boolean flag = false;
+   Timer timer;
    
    
    ArrayList<String> players = new ArrayList<>();
@@ -181,6 +185,7 @@ public class AllStarPanel extends JPanel{
       
       
       setBackground(Color.BLUE);
+      top.setBackground(Color.RED);
       
       
       
@@ -238,11 +243,15 @@ public class AllStarPanel extends JPanel{
       subPanel.setLayout(new GridLayout(0,1));
       //score.setBounds(600,0, 150, 100);
       score.setFont(new Font("Serif", Font.PLAIN, 100));
+      score.setBackground(Color.RED);
       subPanel.add(score);
       //info.setBounds(600,0, 150, 100);
       info.setFont(new Font("Serif", Font.PLAIN, 20));
+      info.setBackground(Color.RED);
       subPanel.add(info);
+      subPanel.setBackground(Color.RED);
       add(subPanel, BorderLayout.SOUTH);
+      
       try{
       
          image = ImageIO.read(new File("basketball.png"));
@@ -390,7 +399,7 @@ public class AllStarPanel extends JPanel{
          
          try {
               
-            Timer timer = new Timer(20, 
+            timer = new Timer(20, 
                new ActionListener() {
                   @Override
                     public void actionPerformed(ActionEvent e) {
@@ -423,7 +432,8 @@ public class AllStarPanel extends JPanel{
                            score.setText(scoret1 + " : " + scoret2);
                            if(turnResult.length == 4)
                            {
-                              
+                              team1s = turnResult[0];
+                              team2s = turnResult[1];
                               
                               int currentPossession = Integer.parseInt(turnResult[3]);
                               if (currentPossession < 0.25 * numPossessions)
@@ -446,7 +456,16 @@ public class AllStarPanel extends JPanel{
                               info.setText("Quarter: " + quarter + " " + turnResult[2]);
                            }
                            else
+                           {
                               flag = true;
+                           
+                              info.setFont(new Font("Serif", Font.BOLD, 50));
+                              if(Integer.parseInt(team1s) > Integer.parseInt(team2s))
+                                 info.setText("WINNER: The Untouchaballs!");
+                              else
+                                 info.setText("WINNER: The Swish Kebabs!");
+                              info.setFont(new Font("Serif", Font.PLAIN, 20));
+                           }
                               
                            delay = 0;
                            
@@ -466,6 +485,7 @@ public class AllStarPanel extends JPanel{
                      // scoret2 = game.get_team2_scores()[0] + game.get_team1_scores()[1] + game.get_team1_scores()[2] + game.get_team1_scores()[3] + game.get_team1_scores()[4];
                      //team1score.setText("Score " + scoret2);
                      }
+                     
                      
                   }
                 
@@ -659,6 +679,7 @@ public class AllStarPanel extends JPanel{
       public void actionPerformed(ActionEvent e)
       {
          flag = true;
+         timer.stop();
       }
    }
    /**
@@ -704,6 +725,8 @@ public class AllStarPanel extends JPanel{
             
             playernumt1 = 0;
             playernumt2 = 0;
+            
+            timer.stop();
          }
             
       }
