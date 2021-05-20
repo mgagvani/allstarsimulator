@@ -9,6 +9,7 @@ import java.awt.image.*;
 import java.util.*;
 import java.util.List;
 import java.io.*;
+import javax.swing.JOptionPane;
 //@Author Dev Kodre
 //Period: 2
 //Date: 4/26/21
@@ -39,11 +40,26 @@ import java.io.*;
 * @param team2p4Stats_Label
 * @param team2p5Stats_Label
 * @param Directions_Label  Information on how to run the simulation
+
+* @param image
+* @param xPos
+* @param yPos
+* @param direction
+* @param playernum
+* @param firstpressed
+
+* @param players
+* @param team
+* @param Arraylist players
+* @param AllPlayers
+* @param playernum
+* @param firstpressed
    
 */
 public class AllStarPanel extends JPanel{
 
    BufferedImage image;
+   BufferedImage logo;
    BufferedImage hoop;
    int xPos = 0;
    int yPos = 650;
@@ -85,6 +101,7 @@ public class AllStarPanel extends JPanel{
    String team1s = "";
    String team2s = "";
    Game game = new Game();
+   String message = "";
    
    
    
@@ -122,11 +139,13 @@ public class AllStarPanel extends JPanel{
    JButton start = new JButton("START");
    JButton reset = new JButton("RESET");
    JButton cancel = new JButton("CANCEL");
+   JButton quit = new JButton("QUIT");
    
    JTextField score = new JTextField("0:0");
    JTextField info = new JTextField("Info",40);
    Boolean flag = false;
    Timer timer;
+   File f;
    
    
    ArrayList<String> players = new ArrayList<>();
@@ -135,10 +154,45 @@ public class AllStarPanel extends JPanel{
    public AllStarPanel () 
    {
       // Working on this part
+      message = message + "\n1. 2011-2012";
+      message = message + "\n2. 2012-2013";
+      message = message + "\n3. 2013-2014";
+      message = message + "\n4. 2014-2015";
+      message = message + "\n5. 2016-2017";
+      message = message + "\n6. 2017-2018";
+      message = message + "\n7. 2018-2019";
+      message = message + "\n8. 2019-2020";
+      message = message + "\n9. 2020-2021";
+      int choice = Integer.parseInt(JOptionPane.showInputDialog(message));
+      
+      switch(choice)
+      {
+         case 1: f = new File("playersRegular2011-12.csv");
+            break;
+         case 2: f = new File("playersRegular2012-13.csv");
+            break;
+         case 3: f = new File("playersRegular2013-14.csv");
+            break;
+         case 4: f = new File("playersRegular2014-15.csv");
+            break;
+         case 5: f = new File("playersRegular2016-17.csv");
+            break;
+         case 6: f = new File("playersRegular2017-18.csv");
+            break;
+         case 7: f = new File("playersRegular2018-19.csv");
+            break;
+         case 8: f = new File("playersRegular2019-20.csv");
+            break;
+         case 9: f = new File("playersRegular2020-21.csv");
+            break;
+         default: f= new File("players.csv");
+         break;
+               
+      }
       
       
       try{
-         BufferedReader br = new BufferedReader(new FileReader("players.csv")); 
+         BufferedReader br = new BufferedReader(new FileReader(f)); 
          
          while ((line = br.readLine()) != null)
          {
@@ -175,6 +229,7 @@ public class AllStarPanel extends JPanel{
       
       top.setLayout(new GridLayout(0,2));
       
+      quit.addActionListener(new QuitPressed());
       start.addActionListener(new StartPressed());
       reset.addActionListener(new ResetPressed());
       cancel.addActionListener(new CencelPressed());
@@ -236,6 +291,7 @@ public class AllStarPanel extends JPanel{
       top.add(start);
       top.add(reset);
       top.add(cancel);
+      top.add(quit);
       
       add(top, BorderLayout.NORTH);
       
@@ -260,6 +316,15 @@ public class AllStarPanel extends JPanel{
       catch(IOException ex)
       {
       
+      }
+      try{
+      
+         logo = ImageIO.read(new File("Logo.png"));
+      
+      }
+      catch(IOException ex)
+      {
+         
       }
       try{
       
@@ -306,6 +371,7 @@ public class AllStarPanel extends JPanel{
       super.paintComponent(g);
       g.drawImage(image, xPos,yPos,50,50, this);
       g.drawImage(hoop, 170,600,250,250, this);
+      g.drawImage(logo, 590,650, 200, 100, this);
       
    }
   
@@ -835,6 +901,23 @@ public class AllStarPanel extends JPanel{
             player5t2.setText("Player: ");
             
          }
+      }
+   }
+   /**
+   * Ends the simulation of the game after the start button has been pressed.
+   *
+   *
+   */
+   private class QuitPressed implements ActionListener
+   {
+   /**
+   * Terminates all calcuations and resets all variables.
+   *
+   * @param actionEvent e
+   */
+      public void actionPerformed(ActionEvent e)
+      {
+         System.exit(0);
       }
    }
    
