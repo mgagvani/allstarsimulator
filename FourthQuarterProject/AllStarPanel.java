@@ -1,4 +1,5 @@
 
+
 import edu.fcps.Turtle;
 import javax.swing.*;
 import java.awt.*;
@@ -146,7 +147,7 @@ public class AllStarPanel extends JPanel{
    JTextField info = new JTextField("Info",40);
    Boolean flag = false;
    Timer timer;
-   File f;
+   java.net.URL f;
    
    
    ArrayList<String> players = new ArrayList<>();
@@ -168,33 +169,34 @@ public class AllStarPanel extends JPanel{
       
       switch(choice)
       {
-         case 1: f = new File("playersRegular2011-12.csv");
+         case 1: f = getClass().getResource("playersRegular2011-12.csv");
             break;
-         case 2: f = new File("playersRegular2012-13.csv");
+         case 2: f = getClass().getResource("playersRegular2012-13.csv");
             break;
-         case 3: f = new File("playersRegular2013-14.csv");
+         case 3: f = getClass().getResource("playersRegular2013-14.csv");
             break;
-         case 4: f = new File("playersRegular2014-15.csv");
+         case 4: f = getClass().getResource("playersRegular2014-15.csv");
             break;
-         case 5: f = new File("playersRegular2016-17.csv");
+         case 5: f = getClass().getResource("playersRegular2016-17.csv");
             break;
-         case 6: f = new File("playersRegular2017-18.csv");
+         case 6: f = getClass().getResource("playersRegular2017-18.csv");
             break;
-         case 7: f = new File("playersRegular2018-19.csv");
+         case 7: f = getClass().getResource("playersRegular2018-19.csv");
             break;
-         case 8: f = new File("playersRegular2019-20.csv");
+         case 8: f = getClass().getResource("playersRegular2019-20.csv");
             break;
-         case 9: f = new File("playersRegular2020-21.csv");
+         case 9: f = getClass().getResource("playersRegular2020-21.csv");
             break;
-         default: f= new File("players.csv");
+         default: f= getClass().getResource("players.csv");
          break;
                
       }
-      logo2 = new ImageIcon("Logo.png");
+      java.net.URL logoURL = getClass().getResource("Logo.png");
+      logo2 = new ImageIcon(logoURL);
       JOptionPane.showMessageDialog(null, "All Star!","Logo", JOptionPane.INFORMATION_MESSAGE, logo2);
       
       try{
-         BufferedReader br = new BufferedReader(new FileReader(f)); 
+         BufferedReader br = new BufferedReader(new InputStreamReader(f.openStream())); 
          
          while ((line = br.readLine()) != null)
          {
@@ -309,8 +311,8 @@ public class AllStarPanel extends JPanel{
       add(subPanel, BorderLayout.SOUTH);
       
       try{
-      
-         image = ImageIO.read(new File("basketball.png"));
+         java.net.URL basketball = getClass().getResource("basketball.png");
+         image = ImageIO.read(basketball);
       
       }
       catch(IOException ex)
@@ -318,8 +320,8 @@ public class AllStarPanel extends JPanel{
       
       }
       try{
-      
-         logo = ImageIO.read(new File("Logo.png"));
+         java.net.URL logoResource = getClass().getResource("Logo.png");
+         logo = ImageIO.read(logoResource);
       
       }
       catch(IOException ex)
@@ -327,8 +329,8 @@ public class AllStarPanel extends JPanel{
          
       }
       try{
-      
-         hoop = ImageIO.read(new File("basketballHoop.png"));
+         java.net.URL hoopResource = getClass().getResource("basketballHoop.png");
+         hoop = ImageIO.read(hoopResource);
       
       }
       catch(IOException ex)
