@@ -379,7 +379,7 @@ public class AllStarPanel extends JPanel{
    {
    /**
    * Runs the simulation of a game between the selected players
-   * Also runs animation. The one timer delays
+   * Also runs animation. The one timer delays the labels but sustains animation.
    *
    * @param actionEvent e
    */
@@ -461,7 +461,7 @@ public class AllStarPanel extends JPanel{
                         }
                         if (yPos + image.getHeight() > getHeight() +240 && xPos > 200)
                         {
-                        
+                           
                            xPos = 0;
                         }
                         repaint();
@@ -470,10 +470,10 @@ public class AllStarPanel extends JPanel{
                         {
                            turnResult = game.play_turn();
                            
-                        // scoret1 = game.get_team1_scores()[0] + game.get_team1_scores()[1] + game.get_team1_scores()[2] + game.get_team1_scores()[3] + game.get_team1_scores()[4];
+                        
                            scoret1 = game.get_team1_score();
                            scoret2 = game.get_team2_score();
-                        //System.out.println(scoret1);
+                        
                            score.setText(scoret1 + " : " + scoret2);
                            if(turnResult.length == 4)
                            {
