@@ -60,6 +60,7 @@ public class AllStarPanel extends JPanel{
 
    BufferedImage image;
    BufferedImage logo;
+   ImageIcon logo2;
    BufferedImage hoop;
    int xPos = 0;
    int yPos = 650;
@@ -189,7 +190,8 @@ public class AllStarPanel extends JPanel{
          break;
                
       }
-      
+      logo2 = new ImageIcon("Logo.png");
+      JOptionPane.showMessageDialog(null, "All Star!","Logo", JOptionPane.INFORMATION_MESSAGE, logo2);
       
       try{
          BufferedReader br = new BufferedReader(new FileReader(f)); 
@@ -297,11 +299,9 @@ public class AllStarPanel extends JPanel{
       
       JPanel subPanel = new JPanel();
       subPanel.setLayout(new GridLayout(0,1));
-      //score.setBounds(600,0, 150, 100);
       score.setFont(new Font("Serif", Font.PLAIN, 100));
       score.setBackground(Color.RED);
       subPanel.add(score);
-      //info.setBounds(600,0, 150, 100);
       info.setFont(new Font("Serif", Font.PLAIN, 20));
       info.setBackground(Color.RED);
       subPanel.add(info);
@@ -375,45 +375,24 @@ public class AllStarPanel extends JPanel{
       
    }
   
-   /**
-   * Adds number of points scored to player's total number of scored points
-   * The method will be called after the start button has been pressed.
-   *
-   * @param player_points   points scored by player
-   * @return total  total number of points scored by player
-   */
-   public int PlayerAddPoint(int points )
-   {
-      
-      return 1;
-   } 
-   /**
-   * Adds number of points scored to team's total number of scored points
-   * The method will be called after the start button has been pressed.
-   *
-   * @param player_points   points scored by player
-   * @return total  total points scored by team
-   */
-   public int TeamAddPoint(int points )
-   {
-      
-      return 1;
-   }
-   /**
-   * Listener class for when the start button has been pressed.
-   *
-   *
-   */
    private class StartPressed implements ActionListener
    {
    /**
    * Runs the simulation of a game between the selected players
+   * Also runs animation. The one timer delays
    *
    * @param actionEvent e
    */
       public void actionPerformed(ActionEvent e)
       {
          
+         if (flag == true)
+         {
+         
+         t1.reset_scores();
+         t2.reset_scores();
+         timer.stop();
+         }
          
          flag = false;
          t1.addPlayer(p1t1);
@@ -548,8 +527,7 @@ public class AllStarPanel extends JPanel{
                            player5t2.setText("Player: " + p5t2.get_name() + " points: " + game.get_team2_scores()[4]);
                         }
                      
-                     // scoret2 = game.get_team2_scores()[0] + game.get_team1_scores()[1] + game.get_team1_scores()[2] + game.get_team1_scores()[3] + game.get_team1_scores()[4];
-                     //team1score.setText("Score " + scoret2);
+                     
                      }
                      
                      
@@ -577,7 +555,7 @@ public class AllStarPanel extends JPanel{
    private class SelectDropDownTeam1 implements ActionListener
    {
    /**
-   * Ensures the player selected is added to the team.
+   * Ensures the player selected is added to the team for the most recent available place.
    *
    * @param actionEvent e
    */
@@ -661,7 +639,7 @@ public class AllStarPanel extends JPanel{
    private class SelectDropDownTeam2 implements ActionListener
    {
    /**
-   * Ensures the player selected is added to the team.
+   * Ensures the player selected is added to the team for the most recent available place.
    *
    * @param actionEvent e
    */
@@ -739,7 +717,7 @@ public class AllStarPanel extends JPanel{
    {
    /**
    * Terminates all calcuations and resets all variables.
-   *
+   * Setting the flag as true terminates the scoring process of the simulation and the animation.
    * @param actionEvent e
    */
       public void actionPerformed(ActionEvent e)
@@ -757,6 +735,7 @@ public class AllStarPanel extends JPanel{
    {
    /**
    * Resets total points scored and total points scored by each individual player.
+   * Resets all labels and all values from the Team and Game class.
    *
    * @param actionEvent e
    */
@@ -805,7 +784,7 @@ public class AllStarPanel extends JPanel{
    private class DeleteTeam1Pressed implements ActionListener
    {
    /**
-   * Removes player selected from the team
+   * Removes the most recent player selected from the team
    *
    * @param actionEvent e
    */
@@ -856,7 +835,7 @@ public class AllStarPanel extends JPanel{
    private class DeleteTeam2Pressed implements ActionListener
    {
    /**
-   * Removes player selected from the team
+   * Removes the most recent player selected from the team
    *
    * @param actionEvent e
    */
@@ -904,14 +883,14 @@ public class AllStarPanel extends JPanel{
       }
    }
    /**
-   * Ends the simulation of the game after the start button has been pressed.
+   * Exits the program regardless of where the program is
    *
    *
    */
    private class QuitPressed implements ActionListener
    {
    /**
-   * Terminates all calcuations and resets all variables.
+   * Exits the program
    *
    * @param actionEvent e
    */
