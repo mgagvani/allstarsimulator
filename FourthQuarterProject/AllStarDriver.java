@@ -1,7 +1,6 @@
+
 //Name: Dev Kodre Period: 2 4/26/21
 
-import edu.fcps.Turtle;
-import java.awt.Color;
 import javax.swing.*;
 
 
