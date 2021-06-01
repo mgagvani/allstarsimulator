@@ -40,14 +40,12 @@ import javax.swing.JOptionPane;
 * @param team2p4Stats_Label
 * @param team2p5Stats_Label
 * @param Directions_Label  Information on how to run the simulation
-
 * @param image
 * @param xPos
 * @param yPos
 * @param direction
 * @param playernum
 * @param firstpressed
-
 * @param players
 * @param team
 * @param Arraylist players
@@ -98,6 +96,7 @@ public class AllStarPanel extends JPanel{
    int scoret2 = 0;
    int delay = 0;
    int quarter = 0;
+   int numPossessions = 0;
    
    String team1s = "";
    String team2s = "";
@@ -187,7 +186,7 @@ public class AllStarPanel extends JPanel{
          case 9: f = getClass().getResource("playersRegular2020-21.csv");
             break;
          default: f= getClass().getResource("players.csv");
-         break;
+            break;
                
       }
       java.net.URL logoURL = getClass().getResource("Logo.png");
@@ -390,9 +389,9 @@ public class AllStarPanel extends JPanel{
          if (flag == true)
          {
          
-         t1.reset_scores();
-         t2.reset_scores();
-         timer.stop();
+            t1.reset_scores();
+            t2.reset_scores();
+            timer.stop();
          }
          
          flag = false;
@@ -407,30 +406,42 @@ public class AllStarPanel extends JPanel{
          t2.addPlayer(p3t2);
          t2.addPlayer(p4t2);
          t2.addPlayer(p5t2);
-         
-         for (int x = 0; x < 5 - 1; x++)
+         if (t1.get_players()[4].get_name() == null)
          {
-            for (int y = x + 1; y < 5; y++)
+            info.setText("Not enough players selected!");
+            flag = true;
+         }
+         else if (t2.get_players()[4].get_name() == null)
+         {
+            info.setText("Not enough players selected!");
+            flag = true;
+         }
+         else
+         {
+            for (int x = 0; x < 5 - 1; x++)
             {
-               if (t1.get_players()[x].get_name().compareTo(t1.get_players()[y].get_name()) == 0)
+               for (int y = x + 1; y < 5; y++)
                {
-                  info.setText("Duplicate players!");
-                  flag = true;
+                  if (t1.get_players()[x].get_name().compareTo(t1.get_players()[y].get_name()) == 0)
+                  {
+                     info.setText("Duplicate players!");
+                     flag = true;
+                  }
                }
             }
-         }
          
-         for (int x = 0; x < 5 - 1; x++)
-         {
-            for (int y = x + 1; y < 5; y++)
+            for (int x = 0; x < 5 - 1; x++)
             {
-               if (t2.get_players()[x].get_name().compareTo(t2.get_players()[y].get_name()) == 0)
+               for (int y = x + 1; y < 5; y++)
                {
-                  info.setText("Duplicate players");
-                  flag = true;
+                  if (t2.get_players()[x].get_name().compareTo(t2.get_players()[y].get_name()) == 0)
+                  {
+                     info.setText("Duplicate players");
+                     flag = true;
+                  }
                }
             }
-         }
+         
          
          teams = new Team[2];
          teams[0] = t1;
@@ -441,7 +452,8 @@ public class AllStarPanel extends JPanel{
          
          game = new Game(teams, allPlayersArray, 200);
          
-         int numPossessions = game.add_players_to_teams(team1players, team2players);
+         numPossessions = game.add_players_to_teams(team1players, team2players);
+         }
          
          try {
               
