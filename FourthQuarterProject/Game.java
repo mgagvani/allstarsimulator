@@ -1,3 +1,4 @@
+
 // Name: Manav Gagvani
 // Period: 2nd
 // Date: April 27th, 2021
@@ -9,8 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import org.apache.commons.lang3.ArrayUtils;
+import java.util.stream.Stream;
 
 /**
  * The Game class contains information about the entire game.
@@ -87,7 +87,8 @@ public class Game {
         Map<String, Integer> playerFGAs = new HashMap<>();
         List<String> allAttempts = new ArrayList<String>();
 
-        String[] allPlayerNames = ArrayUtils.addAll(team1players, team2players);
+        // String[] allPlayerNames = ArrayUtils.addAll(team1players, team2players);
+        String[] allPlayerNames = Stream.of(team1players, team2players).flatMap(Stream::of).toArray(String[]::new);
         // String[] allPlayerNames = Arrays.copyOf(team1players, team1players.length + team2players.length);
         // System.arraycopy(team2players, 0, allPlayerNames, team1players.length, team2players.length);
         int totalFGA = 0;
@@ -187,7 +188,15 @@ public class Game {
         // System.out.println(fgaOrder);
         // System.out.println(allAttempts);
         String playerNameWithBall = fgaOrder.get(turnsPlayed);
-        for(Player player : ArrayUtils.addAll(team1.get_players(), team2.get_players())) {
+
+        for(Player player : team1.get_players()) { // Check if in team 1
+            if(player.get_name() == playerNameWithBall) {
+                playerWithBall = player;
+                break;
+            }
+        }
+
+        for(Player player : team2.get_players()) { // Check if in team 2
             if(player.get_name() == playerNameWithBall) {
                 playerWithBall = player;
                 break;
@@ -205,14 +214,15 @@ public class Game {
             boolean make = playerWithBall.shoot3pt(turnsPlayed);
             if(make) {
                 turnoutcome = "" + playerNameWithBall + " made a 3-pointer";
-                if(ArrayUtils.contains(team1.get_players(), playerWithBall)) {
+                // if(ArrayUtils.contains(team1.get_players(), playerWithBall)) { old, with dependency
+                if(Arrays.stream(team1.get_players()).anyMatch(playerWithBall::equals)) {
                     team1score += 3;
                     playerWithBall.add_score(3);
                     playerWithBall.add_make(3);
                     playerWithBall.add_attempt(3);
                     playerWithBall = team2.get_players()[new Random().nextInt(team2.get_players().length)]; // inbound ball to person on other team
                 }
-                else if(ArrayUtils.contains(team2.get_players(), playerWithBall)) {
+                else if(Arrays.stream(team2.get_players()).anyMatch(playerWithBall::equals)) {
                     team2score += 3;
                     playerWithBall.add_score(3);
                     playerWithBall.add_make(3);
@@ -232,14 +242,14 @@ public class Game {
             boolean make = playerWithBall.shoot2pt(turnsPlayed);
             if(make) {
                 turnoutcome = "" + playerNameWithBall + " made a 2-pointer";
-                if(ArrayUtils.contains(team1.get_players(), playerWithBall)) {
+                if(Arrays.stream(team1.get_players()).anyMatch(playerWithBall::equals)) {
                     team1score += 2;
                     playerWithBall.add_score(2);
                     playerWithBall.add_make(2);
                     playerWithBall.add_attempt(2);
                     playerWithBall = team2.get_players()[new Random().nextInt(team2.get_players().length)]; // inbound ball to person on other team
                 }
-                else if(ArrayUtils.contains(team2.get_players(), playerWithBall)) {
+                else if(Arrays.stream(team2.get_players()).anyMatch(playerWithBall::equals)) {
                     team2score += 2;
                     playerWithBall.add_score(2);
                     playerWithBall.add_make(2);
