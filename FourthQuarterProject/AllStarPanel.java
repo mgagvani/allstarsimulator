@@ -1,6 +1,5 @@
 
 
-import edu.fcps.Turtle;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
